@@ -6,14 +6,14 @@ public abstract class Usuario {
     private String nome;
     private String senha;
     private String email;
-    private String telefone;
-    private String endereco;
-    
-    public Usuario(int id, String nome, String senha, String email) {
-        this.id = id;
+    private char funcao;
+
+    public Usuario(String nome, String senha, String email, char funcao) {
+        this.id++;
         this.nome = nome;
         this.senha = senha;
         this.email = email;
+        this.funcao = funcao;
     }
 
     public int getId() {
@@ -43,22 +43,8 @@ public abstract class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public String getTelefone() {
-        return telefone;
-    }
-    
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-    
-    public String getEndereco() {
-        return endereco;
-    }
-    
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-    //public abstract boolean verificarUsuario();
 
+    public char getFuncao() {
+        return funcao;
+    }
 }

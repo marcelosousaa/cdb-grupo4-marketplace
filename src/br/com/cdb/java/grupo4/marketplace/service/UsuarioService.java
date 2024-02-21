@@ -1,28 +1,25 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
-import br.com.cdb.java.grupo4.marketplace.model.Cliente;
+import java.util.List;
+
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class UsuarioService {
 
-    public boolean verificarUsuario(Usuario usuario){
-        if(usuario instanceof Cliente){
-            return true;
-        } else{
-            return false;
-        }
-    }
+    public static void listarUsuarios(List<Usuario> listaDeUsuarios) {
 
-    public boolean login(Usuario usuario){
-        if(usuario.getSenha() != null){
-            return true;
+        if (!listaDeUsuarios.isEmpty()) {
+
+            System.out.println("\tLista de Usuarios\n"
+                    + "Id"
+                    + "\tNome"
+                    + "\tFuncao");
+
+            for (Usuario usuario : listaDeUsuarios) {
+                System.out.println(usuario.getId() + " \t" + usuario.getNome() + " \t" + usuario.getFuncao());
+            }
         } else {
-            return false;
+            System.out.println("A lista esta vazia!");
         }
-
-    }
-
-    public void cadastrarCliente(Cliente cliente){
-        
     }
 }

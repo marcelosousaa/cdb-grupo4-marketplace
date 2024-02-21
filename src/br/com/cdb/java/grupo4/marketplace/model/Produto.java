@@ -1,14 +1,14 @@
 package br.com.cdb.java.grupo4.marketplace.model;
 
 public class Produto {
-    private static int id;
+    private int id;
     private String nome;
     private String descricao;
     private double preco;
     private int quantidade;
     
     public Produto(String nome, String descricao, double preco, int quantidade) {
-        Produto.id += 1;
+        this.id ++;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

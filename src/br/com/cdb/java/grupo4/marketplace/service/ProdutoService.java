@@ -7,13 +7,13 @@ import br.com.cdb.java.grupo4.marketplace.model.Produto;
 
 public class ProdutoService {
 
-    public void listarProdutos(List<Produto> listaDeProdutos) {
+    public static void listarProdutos(List<Produto> listaDeProdutos) {
         for (Produto produto : listaDeProdutos) {
             System.out.println(produto.toString());
         }
     }
 
-    public Produto adicionarProduto() {
+    public static Produto adicionarProduto() {
         String nome = null;
         String descricao = null;
         double preco = 0d;
@@ -39,12 +39,13 @@ public class ProdutoService {
 
     public void removeProduto(List<Produto> listaDeProdutos, Produto produto) {
         for (Produto p : listaDeProdutos) {
-            listaDeProdutos.remove(produto);
+            if(p.getId() == produto.getId()){
+                listaDeProdutos.remove(produto);
+            }
         }
     }
 
-    public void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
-
+    public static void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
         for (Produto p : listaDeProdutos) {
             if (p.getNome().equals(produto.getNome())) {
                 int quantidadeAtual;
