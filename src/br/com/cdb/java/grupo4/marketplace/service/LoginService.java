@@ -14,11 +14,13 @@ public class LoginService {
         int opcaoInicial = 0;
         while (true) {
             System.out.println("\n######### Bem vindo ao nosso Marketplace #########");
-            System.out.println("\nSe voce ja possui cadastro digite '1' para acessar o seu menu principal, "
-                    + "caso nao possua, digite '2' para se cadastrar...");
+            System.out.println("\nSelecione uma opcao abaixo:\n "
+                    + "\n1 - Acesso ao menu principal"
+                    + "\n2 - Cadastro"
+                    + "\n0 - Sair");
             try {
                 opcaoInicial = new Scanner(System.in).nextInt();
-                
+
                 if (opcaoInicial < 1 || opcaoInicial > 2) {
                     System.out.println("Opcao invalida!");
                 } else {
@@ -39,10 +41,17 @@ public class LoginService {
         while (usuario == null) {
             System.out.println("Digite seu email: ");
             email = new Scanner(System.in).nextLine();
-
-            System.out.println("Digite sua senha: ");
-            senha = new Scanner(System.in).nextLine();
-
+            if (email.isBlank()) {
+                System.err.println("Campo obrigatorio!");
+                usuario = null;
+            } else {
+                System.out.println("Digite sua senha: ");
+                senha = new Scanner(System.in).nextLine();
+                if (senha.isBlank()) {
+                    System.err.println("Campo obrigatorio!");
+                    usuario = null;
+                }
+            }
             usuario = LoginService.validaLogin(listaDeUsuarios, email, senha);
         }
         return usuario;
@@ -52,8 +61,8 @@ public class LoginService {
         Usuario usuario = null;
         if (!listaDeUsuarios.isEmpty()) {
             for (Usuario u : listaDeUsuarios) {
-                if (u.getEmail() == email) {
-                    if (u.getSenha() == senha) {
+                if (u.getEmail().equals(email)) {
+                    if (u.getSenha().equals(senha)) {
                         if (u.getFuncao() == 'C') {
                             usuario = new Cliente(
                                     u.getNome(),
@@ -65,7 +74,7 @@ public class LoginService {
                         } else {
                             usuario = new Administrador(u.getNome(), u.getSenha(), u.getEmail());
                         }
-                        System.out.println("Login realizado com sucesso!");
+                        System.out.println("\nLogin realizado com sucesso!\n");
                     } else {
                         System.out.println("Senha inválida!");
                     }

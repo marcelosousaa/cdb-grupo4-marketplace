@@ -33,6 +33,8 @@ public class ClienteService {
 
         clienteCadastrado = new Cliente(nome, senha, email, email, telefone, endereco);
 
+        System.out.println("Cadastro realizado com sucesso!");
+
         return clienteCadastrado;
     }
 

@@ -53,7 +53,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return this.nome + " - " + this.quantidade + " - " + this.preco;
+        return this.id + "  " + this.nome + " \t\t " + this.quantidade + " \t\t " + this.preco;
     }
 
     

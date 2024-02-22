@@ -1,5 +1,6 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,8 +9,13 @@ import br.com.cdb.java.grupo4.marketplace.model.Produto;
 public class ProdutoService {
 
     public static void listarProdutos(List<Produto> listaDeProdutos) {
-        for (Produto produto : listaDeProdutos) {
-            System.out.println(produto.toString());
+        if (!listaDeProdutos.isEmpty()) {
+            System.err.println("ID" + "\tNome" + "\t\tQuantidade" + "\tPreco");
+            for (Produto produto : listaDeProdutos) {
+                System.out.println(produto.toString());
+            }
+        } else {
+            System.err.println("A lista esta vazia!\n");
         }
     }
 
@@ -19,31 +25,64 @@ public class ProdutoService {
         double preco = 0d;
         int quantidade = 0;
         Produto produto = null;
+        boolean loopNome = false;
+        boolean loopQuantidade = false;
+        boolean loopPreco = false;
 
-        System.out.println("Digite o nome do produto: ");
-        nome = new Scanner(System.in).nextLine();
+        while (!loopNome) {
+            System.out.println("Digite o nome do produto:");
+            nome = new Scanner(System.in).nextLine();
+            if (nome.isBlank()) {
+                System.err.println("Nome obrigatorio!");
+                loopNome = false;
+            }else{
+                loopNome = true;
+            }
+        }
 
-        System.out.println("Digite a descricao do produto: ");
+        // DESCRICAO E OPCIONAL
+        System.out.println("Digite a descricao do produto:");
         descricao = new Scanner(System.in).nextLine();
 
-        System.out.println("Digite a quantidade: ");
-        quantidade = new Scanner(System.in).nextInt();
+        while (!loopQuantidade) {
+            try {
+                System.out.println("Digite a quantidade:");
+                quantidade = new Scanner(System.in).nextInt();
+                loopQuantidade = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Caracter invalido!");
+                loopQuantidade = false;
+            }
 
-        System.out.println("Digite o preco do produto: ");
-        preco = new Scanner(System.in).nextDouble();
+        }
+
+        while (!loopPreco) {
+            try {
+                System.out.println("Digite o preco do produto:");
+                preco = new Scanner(System.in).nextDouble();
+                loopPreco = true;
+            } catch (Exception e) {
+                System.out.println("Caracter invalido!");
+                loopPreco = false;
+            }
+        }
 
         produto = new Produto(nome, descricao, preco, quantidade);
 
         return produto;
     }
 
-    public void removeProduto(List<Produto> listaDeProdutos, Produto produto) {
-        for (Produto p : listaDeProdutos) {
-            if(p.getId() == produto.getId()){
-                listaDeProdutos.remove(produto);
-            }
-        }
-    }
+    // public void removeProduto(List<Produto> listaDeProdutos, Produto produto) {
+    // if (!listaDeProdutos.isEmpty()) {
+    // for (Produto p : listaDeProdutos) {
+    // if (p.getId() == produto.getId()) {
+    // listaDeProdutos.remove(produto);
+    // }
+    // }
+    // } else {
+    // System.out.println("A lista esta vazia!");
+    // }
+    // }
 
     public static void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
         for (Produto p : listaDeProdutos) {
