@@ -1,7 +1,6 @@
 package br.com.cdb.java.grupo4.marketplace.model;
 
 public abstract class Usuario {
-
     private int id;
     private String nome;
     private String senha;

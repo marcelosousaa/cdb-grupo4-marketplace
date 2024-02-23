@@ -60,6 +60,9 @@ public class LoginService {
     private static Usuario validaLogin(List<Usuario> listaDeUsuarios, String email, String senha) {
         Usuario usuario = null;
         if (!listaDeUsuarios.isEmpty()) {
+
+
+            
             for (Usuario u : listaDeUsuarios) {
                 if (u.getEmail().equals(email)) {
                     if (u.getSenha().equals(senha)) {

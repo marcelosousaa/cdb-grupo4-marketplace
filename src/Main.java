@@ -11,7 +11,7 @@ import br.com.cdb.java.grupo4.marketplace.service.AdmService;
 import br.com.cdb.java.grupo4.marketplace.service.ClienteService;
 import br.com.cdb.java.grupo4.marketplace.service.LoginService;
 import br.com.cdb.java.grupo4.marketplace.service.ProdutoService;
-//import br.com.cdb.java.grupo4.marketplace.service.UsuarioService;
+import br.com.cdb.java.grupo4.marketplace.service.UsuarioService;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -26,7 +26,7 @@ public class Main {
         // CRIAR ADM PADRAO
         adm = AdmService.criaAdministrador();
         listaDeUsuarios.add(adm);
-        // UsuarioService.listarUsuarios(listaDeUsuarios);
+        UsuarioService.listarUsuarios(listaDeUsuarios);
 
         // INICIO DA APLICACAO
         int opcaoRetornada = LoginService.telaDeLogin();
@@ -41,7 +41,7 @@ public class Main {
                 case 2:
                     cliente = ClienteService.cadastrarCliente();
                     listaDeUsuarios.add(cliente);
-                    // UsuarioService.listarUsuarios(listaDeUsuarios);
+                    UsuarioService.listarUsuarios(listaDeUsuarios);
                     opcaoRetornada = LoginService.telaDeLogin();
                     rodandoMain = false;
                     break;
@@ -58,7 +58,7 @@ public class Main {
         List<Produto> listaDeProdutos = new ArrayList<Produto>();
 
         while (rodandoMenuPrincipal == false) {
-            if (usuario.getFuncao() == 'A') {
+            if (usuario.getFuncao() == 'A') { //SE FOR ADMINISTRADOR
                 System.out.println("\n######## Gerenciamento de estoque ########");
                 System.out.println("Selecione uma opcao no menu abaixo: \n"
                         + "\n 1 - Listar estoque"
@@ -100,7 +100,7 @@ public class Main {
                     System.out.println("Caracter invalido!");
                     rodandoMenuPrincipal = false;
                 }
-            } else {
+            } else { //SE FOR CLIENTE
                 System.out.println("\nSelecione uma opcao no menu abaixo:"
                         + "\n 1 - Gerenciar minha carteira"
                         + "\n 2 - Compras");

@@ -8,7 +8,7 @@ public class Produto {
     private int quantidade;
     
     public Produto(String nome, String descricao, double preco, int quantidade) {
-        this.id ++;
+        this.id++;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
@@ -55,6 +55,4 @@ public class Produto {
     public String toString() {
         return this.id + "  " + this.nome + " \t\t " + this.quantidade + " \t\t " + this.preco;
     }
-
-    
 }

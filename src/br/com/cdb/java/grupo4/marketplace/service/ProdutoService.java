@@ -42,7 +42,7 @@ public class ProdutoService {
             if (nome.isEmpty()) {
                 System.err.println("Nome obrigatorio!");
                 loopNome = false;
-            }else{
+            } else {
                 loopNome = true;
             }
         }
@@ -74,7 +74,12 @@ public class ProdutoService {
             }
         }
 
-        produto = new Produto(nome, descricao, preco, quantidade);
+        try {
+            produto = new Produto(nome, descricao, preco, quantidade);
+            System.out.println("\nProduto cadastrado com sucesso!\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return produto;
     }
@@ -92,11 +97,13 @@ public class ProdutoService {
     // }
 
     public static void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
-        for (Produto p : listaDeProdutos) {
-            if (p.getNome().equals(produto.getNome())) {
-                int quantidadeAtual;
-                quantidadeAtual = produto.getQuantidade();
-                produto.setQuantidade(quantidadeAtual - quantidade);
+        if (!listaDeProdutos.isEmpty()) {
+            for (Produto p : listaDeProdutos) {
+                if (p.getNome().equals(produto.getNome())) {
+                    int quantidadeAtual;
+                    quantidadeAtual = produto.getQuantidade();
+                    produto.setQuantidade(quantidadeAtual - quantidade);
+                }
             }
         }
     }
