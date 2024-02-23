@@ -11,9 +11,16 @@ public class ProdutoService {
     public static void listarProdutos(List<Produto> listaDeProdutos) {
         if (!listaDeProdutos.isEmpty()) {
             System.err.println("ID" + "\tNome" + "\t\tQuantidade" + "\tPreco");
-            for (Produto produto : listaDeProdutos) {
-                System.out.println(produto.toString());
-            }
+            
+            
+            for (int i=0; i<listaDeProdutos.size(); i++) {
+                Produto t = listaDeProdutos.get(i);
+                System.out.println("ID " + i);
+                System.out.println(t.toString());
+                 
+        }
+
+
         } else {
             System.err.println("A lista esta vazia!\n");
         }
@@ -32,7 +39,7 @@ public class ProdutoService {
         while (!loopNome) {
             System.out.println("Digite o nome do produto:");
             nome = new Scanner(System.in).nextLine();
-            if (nome.isBlank()) {
+            if (nome.isEmpty()) {
                 System.err.println("Nome obrigatorio!");
                 loopNome = false;
             }else{

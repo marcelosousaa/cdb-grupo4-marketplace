@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // DECLARACAO DE VARIAVEIS
-        int ad = 0;
         boolean rodandoMain = false;
         Usuario usuario = null;
         Cliente cliente = null;
@@ -79,6 +78,7 @@ public class Main {
                         Produto novoProduto = null;
                         novoProduto = ProdutoService.adicionarProduto();
                         listaDeProdutos.add(novoProduto);
+                        System.out.println("Produto cadastrado com sucesso!!");
                         System.out.println("Pressione qualquer tecla para retornar ao menu");
                         new Scanner(System.in).nextLine();
                         rodandoMenuPrincipal = false;

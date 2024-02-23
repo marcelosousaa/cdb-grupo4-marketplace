@@ -41,13 +41,13 @@ public class LoginService {
         while (usuario == null) {
             System.out.println("Digite seu email: ");
             email = new Scanner(System.in).nextLine();
-            if (email.isBlank()) {
+            if (email.isEmpty()) {
                 System.err.println("Campo obrigatorio!");
                 usuario = null;
             } else {
                 System.out.println("Digite sua senha: ");
                 senha = new Scanner(System.in).nextLine();
-                if (senha.isBlank()) {
+                if (senha.isEmpty()) {
                     System.err.println("Campo obrigatorio!");
                     usuario = null;
                 }
