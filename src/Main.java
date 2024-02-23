@@ -17,6 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // DECLARACAO DE VARIAVEIS
+        int ad = 0;
         boolean rodandoMain = false;
         Usuario usuario = null;
         Cliente cliente = null;
