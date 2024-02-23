@@ -16,7 +16,7 @@ public class UsuarioService {
                     + "\tFuncao");
 
             for (Usuario usuario : listaDeUsuarios) {
-                System.out.println(usuario.getId() + " \t" + usuario.getNome() + " \t" + usuario.getFuncao());
+                System.out.println((listaDeUsuarios.indexOf(usuario)) + " \t" + usuario.getNome() + " \t" + usuario.getFuncao());
             }
         } else {
             System.out.println("A lista esta vazia!");

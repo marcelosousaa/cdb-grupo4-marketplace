@@ -1,9 +1,9 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
+import java.io.Console;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
@@ -35,24 +35,29 @@ public class LoginService {
 
     public static Usuario login(List<Usuario> listaDeUsuarios) {
         String email = null;
-        String senha = null;
+        char[] senhaChar;
+        String senhaString = null;
         Usuario usuario = null;
+        Console console = null;
 
         while (usuario == null) {
-            System.out.println("Digite seu email: ");
-            email = new Scanner(System.in).nextLine();
+            System.out.print("Digite seu email: ");
+            email = new Scanner(System.in).next();
             if (email.isEmpty()) {
                 System.err.println("Campo obrigatorio!");
                 usuario = null;
             } else {
-                System.out.println("Digite sua senha: ");
-                senha = new Scanner(System.in).nextLine();
-                if (senha.isEmpty()) {
+                console = System.console();
+                senhaChar = console.readPassword("Digite sua senha: ");
+
+                if (senhaChar.length == 0) {
                     System.err.println("Campo obrigatorio!");
                     usuario = null;
+                } else {
+                    senhaString = new String(senhaChar);
                 }
             }
-            usuario = LoginService.validaLogin(listaDeUsuarios, email, senha);
+            usuario = LoginService.validaLogin(listaDeUsuarios, email, senhaString);
         }
         return usuario;
     }
@@ -60,33 +65,35 @@ public class LoginService {
     private static Usuario validaLogin(List<Usuario> listaDeUsuarios, String email, String senha) {
         Usuario usuario = null;
         if (!listaDeUsuarios.isEmpty()) {
-
-
-            
-            for (Usuario u : listaDeUsuarios) {
-                if (u.getEmail().equals(email)) {
-                    if (u.getSenha().equals(senha)) {
-                        if (u.getFuncao() == 'C') {
+            for (int i = 0; i < listaDeUsuarios.size(); i++) {
+                if (listaDeUsuarios.get(i).getEmail().equals(email)) {
+                    if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
+                        if (listaDeUsuarios.get(i).getFuncao() == 'C') {
                             usuario = new Cliente(
-                                    u.getNome(),
-                                    u.getSenha(),
-                                    u.getEmail(),
-                                    ((Cliente) u).getTelefone(),
-                                    ((Cliente) u).getEndereco(),
-                                    ((Cliente) u).getDataDeNascimento());
+                                    listaDeUsuarios.get(i).getNome(),
+                                    listaDeUsuarios.get(i).getSenha(),
+                                    listaDeUsuarios.get(i).getEmail(),
+                                    ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
+                                    ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
+                                    ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
                         } else {
-                            usuario = new Administrador(u.getNome(), u.getSenha(), u.getEmail());
+                            usuario = new Administrador(
+                                    listaDeUsuarios.get(i).getNome(),
+                                    listaDeUsuarios.get(i).getSenha(),
+                                    listaDeUsuarios.get(i).getEmail());
                         }
                         System.out.println("\nLogin realizado com sucesso!\n");
                     } else {
-                        System.out.println("Senha inválida!");
+                        System.out.println(
+                                "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                     }
                 } else {
-                    System.out.println("Usuario nao localizado!");
+                    System.out
+                            .println("\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                 }
             }
         } else {
-            System.out.println("A lista esta vazia!");
+            System.out.println("Nao ha usuarios cadastrados!");
         }
         return usuario;
     }

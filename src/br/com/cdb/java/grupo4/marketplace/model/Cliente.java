@@ -48,8 +48,7 @@ public final class Cliente extends Usuario {
 
     @Override
     public String toString() {
-        return this.getId()
-        + " - " + this.getNome()
+        return this.getNome()
         + " - " + this.getSaldo()
         + " - " + this.getDataDeNascimento()
         + " - " + this.getEmail()

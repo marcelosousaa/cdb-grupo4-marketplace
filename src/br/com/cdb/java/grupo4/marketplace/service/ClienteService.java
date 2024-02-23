@@ -1,5 +1,6 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,29 +10,68 @@ import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 public class ClienteService {
 
     public static Cliente cadastrarCliente() {
+        Console console = null;
         Cliente clienteCadastrado = null;
         String nome;
-        String senha;
+        String senhaString;
+        char[] senhaChar;
         String email;
         String telefone;
         String endereco;
 
-        System.out.println("Digite seu nome: ");
-        nome = new Scanner(System.in).nextLine();
+        while (true) {
+            System.out.println("Digite seu nome: ");
+            nome = new Scanner(System.in).nextLine();
+            if (nome.isEmpty()) {
+                System.out.println("Campo obrigatorio!");
+            } else {
+                break;
+            }
+        }
 
-        System.out.println("Defina uma senha: ");
-        senha = new Scanner(System.in).nextLine();
+        while (true) {
+            console = System.console();
+            senhaChar = console.readPassword("Defina sua senha: ");
 
-        System.out.println("Digite seu email: ");
-        email = new Scanner(System.in).nextLine();
+            if (senhaChar.length == 0) {
+                System.err.println("Campo obrigatorio!");
+            } else {
+                senhaString = new String(senhaChar);
+                break;
+            }
+        }
 
-        System.out.println("Digite o seu telefone: ");
-        telefone = new Scanner(System.in).nextLine();
+        while (true) {
+            System.out.println("Digite seu email: ");
+            email = new Scanner(System.in).nextLine();
+            if (email.isEmpty()) {
+                System.out.println("Campo obrigatorio!");
+            } else {
+                break;
+            }
+        }
 
-        System.out.println("Digite o seu endereço: ");
-        endereco = new Scanner(System.in).nextLine();
+        while (true) {
+            System.out.println("Digite o seu telefone: ");
+            telefone = new Scanner(System.in).nextLine();
+            if (telefone.isEmpty()) {
+                System.out.println("Campo obrigatorio!");
+            } else {
+                break;
+            }
+        }
 
-        clienteCadastrado = new Cliente(nome, senha, email, email, telefone, endereco);
+        while (true) {
+            System.out.println("Digite o seu endereço: ");
+            endereco = new Scanner(System.in).nextLine();
+            if (endereco.isEmpty()) {
+                System.out.println("Campo obrigatorio!");
+            } else {
+                break;
+            }
+        }
+
+        clienteCadastrado = new Cliente(nome, senhaString, email, email, telefone, endereco);
 
         System.out.println("Cadastro realizado com sucesso!");
 
@@ -49,23 +89,6 @@ public class ClienteService {
             System.out.println("Lista de usuarios vazia!");
         }
     }
-
-    // public static void listarClientes(List<Usuario> listaDeUsuarios) {
-    //     if (!listaDeUsuarios.isEmpty()) {
-    //         for (Usuario usuario : listaDeUsuarios) {
-    //             if (usuario instanceof Cliente) {
-    //                 System.out.println(usuario.getId()
-    //                         + " - " + usuario.getNome()
-    //                         + " - " + usuario.getEmail()
-    //                         + " - " + ((Cliente) usuario).getTelefone()
-    //                         + " - " + ((Cliente) usuario).getEndereco());
-    //             }
-    //         }
-    //     } else {
-    //         System.out.println("Lista de usuarios vazia!");
-    //     }
-    // }
-
 
     public static void menuCompras(Usuario usuario) {
         // TODO Auto-generated method stub

@@ -11,16 +11,9 @@ public class ProdutoService {
     public static void listarProdutos(List<Produto> listaDeProdutos) {
         if (!listaDeProdutos.isEmpty()) {
             System.err.println("ID" + "\tNome" + "\t\tQuantidade" + "\tPreco");
-            
-            
-            for (int i=0; i<listaDeProdutos.size(); i++) {
-                Produto t = listaDeProdutos.get(i);
-                System.out.println("ID " + i);
-                System.out.println(t.toString());
-                 
-        }
-
-
+            for (Produto produto : listaDeProdutos) {
+                System.out.println(produto.toString());
+            }
         } else {
             System.err.println("A lista esta vazia!\n");
         }
@@ -80,21 +73,8 @@ public class ProdutoService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return produto;
     }
-
-    // public void removeProduto(List<Produto> listaDeProdutos, Produto produto) {
-    // if (!listaDeProdutos.isEmpty()) {
-    // for (Produto p : listaDeProdutos) {
-    // if (p.getId() == produto.getId()) {
-    // listaDeProdutos.remove(produto);
-    // }
-    // }
-    // } else {
-    // System.out.println("A lista esta vazia!");
-    // }
-    // }
 
     public static void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
         if (!listaDeProdutos.isEmpty()) {
