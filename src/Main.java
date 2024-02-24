@@ -17,90 +17,106 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // DECLARACAO DE VARIAVEIS
-        boolean rodandoMain = false;
+        boolean rodandoMenuLogin = false;
         Usuario usuario = null;
         Cliente cliente = null;
         Administrador adm = null;
         List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 
         // CRIAR ADM PADRAO
-        adm = AdmService.criaAdministrador();
+        adm = AdmService.criarAdministrador();
         listaDeUsuarios.add(adm);
-        UsuarioService.listarUsuarios(listaDeUsuarios);
+        adm = null; // LIBERA A VARIAVEL
 
         // INICIO DA APLICACAO
         int opcaoRetornada = LoginService.telaDeLogin();
 
-        while (rodandoMain == false) {
+        // MENU LOGIN
+        while (rodandoMenuLogin == false) {
             switch (opcaoRetornada) {
                 case 1:
                     usuario = LoginService.login(listaDeUsuarios);
-                    menuPrincipal(usuario);
-                    rodandoMain = true;
+                    rodandoMenuLogin = true;
                     break;
                 case 2:
                     cliente = ClienteService.cadastrarCliente(listaDeUsuarios);
                     listaDeUsuarios.add(cliente);
-                    UsuarioService.listarUsuarios(listaDeUsuarios);
                     opcaoRetornada = LoginService.telaDeLogin();
-                    rodandoMain = false;
+                    break;
+                case 0:
+                    System.out.println("\nEncerrando...");
+                    System.out.println("Obrigado por utilizar o nosso sistema!\n");
+                    System.exit(0);
                     break;
                 default:
                     break;
             }
         }
-    }
 
-    public static void menuPrincipal(Usuario usuario) {
+        // MENU PRINCIPAL
         boolean rodandoMenuPrincipal = false;
         int opcaoSelecionada = 0;
 
         List<Produto> listaDeProdutos = new ArrayList<Produto>();
 
         while (rodandoMenuPrincipal == false) {
-            if (usuario.getFuncao() == 'A') { //SE FOR ADMINISTRADOR
+            if (usuario.getFuncao() == 'A') { // SE FOR ADMINISTRADOR
                 System.out.println("\n######## Gerenciamento de estoque ########");
                 System.out.println("Selecione uma opcao no menu abaixo: \n"
                         + "\n 1 - Listar estoque"
                         + "\n 2 - Cadastrar novo produto"
                         + "\n 3 - Registar recebimento de produtos"
+                        + "\n 4 - Cadastrar novo Administrador"
+                        // + "\n 5 -Retornar ao menu de login"
                         + "\n 0 - sair");
                 try {
                     opcaoSelecionada = new Scanner(System.in).nextInt();
-                    if (opcaoSelecionada < 0 || opcaoSelecionada > 3) {
+                    if (opcaoSelecionada < 0 || opcaoSelecionada > 5) {
                         System.out.println("Opcao invalida!");
-                    } else if (opcaoSelecionada == 1) {
-                        ProdutoService.listarProdutos(listaDeProdutos);
-                        System.out.println("Pressione qualquer tecla para retornar ao menu");
-                        new Scanner(System.in).nextLine();
                         rodandoMenuPrincipal = false;
-                    } else if (opcaoSelecionada == 2) {
-                        Produto novoProduto = null;
-                        novoProduto = ProdutoService.cadastrarProduto(listaDeProdutos);
-                        listaDeProdutos.add(novoProduto);
-                        System.out.println("Produto cadastrado com sucesso!!");
-                        System.out.println("Pressione qualquer tecla para retornar ao menu");
-                        new Scanner(System.in).nextLine();
-                        rodandoMenuPrincipal = false;
-                    } else if (opcaoSelecionada == 3) {
-                        if (!listaDeProdutos.isEmpty()) {
-                            ProdutoService.listarProdutos(listaDeProdutos);
-                        } else {
-                            System.err.println("Ainda nao ha produtos cadastrados...");
-                            System.out.println("Pressione qualquer tecla para retornar ao menu");
-                            new Scanner(System.in).nextLine();
-                            rodandoMenuPrincipal = false;
-                        }
                     } else {
-                        System.out.println("\nEncerrando...");
-                        System.out.println("Obrigado por utilizar o nosso sistema!\n");
-                        rodandoMenuPrincipal = true;
+                        switch (opcaoSelecionada) {
+                            case 1:
+                                ProdutoService.listarProdutos(listaDeProdutos);
+                                rodandoMenuPrincipal = false;
+                                break;
+                            case 2:
+                                Produto novoProduto = null;
+                                novoProduto = ProdutoService.cadastrarProduto(listaDeProdutos);
+                                listaDeProdutos.add(novoProduto);
+                                rodandoMenuPrincipal = false;
+                                break;
+                            case 3:
+                                if (!listaDeProdutos.isEmpty()) {
+                                    ProdutoService.listarProdutos(listaDeProdutos);
+                                    listaDeProdutos = ProdutoService.atualizarEstoque(listaDeProdutos);
+                                    ProdutoService.listarProdutos(listaDeProdutos);
+                                    rodandoMenuPrincipal = false;
+                                } else {
+                                    System.err.println("Ainda nao ha produtos cadastrados...");
+                                    rodandoMenuPrincipal = false;
+                                }
+                                break;
+                            case 4:
+                                adm = AdmService.cadastrarAdministrador(listaDeUsuarios);
+                                listaDeUsuarios.add(adm);
+                                UsuarioService.listarUsuarios(listaDeUsuarios);
+                                rodandoMenuPrincipal = false;
+                                break;
+                            case 0:
+                                System.out.println("\nEncerrando...");
+                                System.out.println("Obrigado por utilizar o nosso sistema!\n");
+                                rodandoMenuPrincipal = true;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Caracter invalido!");
                     rodandoMenuPrincipal = false;
                 }
-            } else { //SE FOR CLIENTE
+            } else { // SE FOR CLIENTE
                 System.out.println("\nSelecione uma opcao no menu abaixo:"
                         + "\n 1 - Gerenciar minha carteira"
                         + "\n 2 - Compras");
@@ -120,7 +136,5 @@ public class Main {
                 }
             }
         }
-
     }
-
 }

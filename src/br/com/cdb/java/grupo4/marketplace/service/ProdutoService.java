@@ -1,5 +1,6 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -74,15 +75,63 @@ public class ProdutoService {
         return produto;
     }
 
-    public static void atualizarEstoque(List<Produto> listaDeProdutos, Produto produto, int quantidade) {
-        if (!listaDeProdutos.isEmpty()) {
-            for (Produto p : listaDeProdutos) {
-                if (p.getNome().equals(produto.getNome())) {
-                    int quantidadeAtual;
-                    quantidadeAtual = produto.getQuantidade();
-                    produto.setQuantidade(quantidadeAtual - quantidade);
+    public static List<Produto> atualizarEstoque(List<Produto> listaDeProdutos) {
+        long idProduto = 0l;
+        int quantidade = 0;
+
+        while (true) {
+            System.out.println("Digite o id do produto que deseja atualizar o estoque");
+            try {
+                idProduto = new Scanner(System.in).nextLong();
+                for(int i = 0; i < listaDeProdutos.size(); i++){
+                    if(listaDeProdutos.get(i).getId() == idProduto){
+                        System.out.println("Produto localizado!");
+                        System.out.println("Digite a quantidade que deseja adicionar ao estoque: ");
+                        try {
+                            quantidade = new Scanner(System.in).nextInt();
+                            quantidade += listaDeProdutos.get(i).getQuantidade();
+                            listaDeProdutos.get(i).setQuantidade(quantidade);
+                            System.out.println("Valor atualizado!\n");
+                            break;
+                        } catch (Exception e) {
+                            System.out.println("Caracter invalido!");
+                        }
+                    } else if(i < listaDeProdutos.size()){
+                        System.out.println("Buscando...");
+                    } else {
+                        System.out.println("Produto nao localizado!");
+                    }
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Caracter invalido!");
+            }
+        }
+        return listaDeProdutos;
+    }
+
+    public static void venderProduto(List<Produto> listaDeProdutos, long idDoProduto, int quantidadeComprada) {
+        int quantidadeAtual = 0;
+        
+        if(!listaDeProdutos.isEmpty()){
+            for(int i = 0; i < listaDeProdutos.size(); i++){
+                if(listaDeProdutos.get(i).getId() == idDoProduto){
+                    quantidadeAtual = listaDeProdutos.get(i).getQuantidade();
+
+                    if(quantidadeAtual > quantidadeComprada){
+                        listaDeProdutos.get(i).setQuantidade(quantidadeAtual - quantidadeComprada);
+                    } else {
+                        System.err.println("Quantidade indisponivel!");
+                    }
+
+                } else if(i < listaDeProdutos.size()){
+                    System.out.println("Buscando...");
+                } else {
+                    System.out.println("Produto nao localizado!");
                 }
             }
+        } else {
+            System.err.println("Houve um erro, por favor contat o Administrador do sistema.");
         }
     }
 }

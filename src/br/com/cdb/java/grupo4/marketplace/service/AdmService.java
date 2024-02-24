@@ -9,12 +9,12 @@ import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class AdmService {
 
-    public static Administrador criaAdministrador() {
+    public static Administrador criarAdministrador() {
         Administrador adm = new Administrador(1, "admin", "admin", "admin@teste.com");
         return adm;
     }
 
-    public static Administrador cadastraAdministrador(List<Usuario> listaDeUsuarios){
+    public static Administrador cadastrarAdministrador(List<Usuario> listaDeUsuarios){
         String nome = null;
         char [] senhaChar;
         String senhaString = null;
@@ -31,7 +31,7 @@ public class AdmService {
         idAdministrador = totalDeAdministradores + 1;
 
         while (true) {
-            System.out.println("Digite seu nome: ");
+            System.out.println("Digite o nome: ");
             nome = new Scanner(System.in).nextLine();
             if (nome.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
@@ -42,7 +42,7 @@ public class AdmService {
 
         while (true) {
             console = System.console();
-            senhaChar = console.readPassword("Defina sua senha: ");
+            senhaChar = console.readPassword("Defina a senha: ");
 
             if (senhaChar.length == 0) {
                 System.err.println("Campo obrigatorio!");
@@ -53,7 +53,7 @@ public class AdmService {
         }
 
         while (true) {
-            System.out.println("Digite seu email: ");
+            System.out.println("Digite o email: ");
             email = new Scanner(System.in).nextLine();
             if (email.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
@@ -63,6 +63,7 @@ public class AdmService {
         }
 
         Administrador novoAdministrador = new Administrador(idAdministrador, nome, senhaString, email);
+        System.out.println("Novo administrador cadastrado com sucesso!\n");
         return novoAdministrador;
     }
 }

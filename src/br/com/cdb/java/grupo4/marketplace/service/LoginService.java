@@ -13,15 +13,15 @@ public class LoginService {
     public static int telaDeLogin() {
         int opcaoInicial = 0;
         while (true) {
-            System.out.println("\n######### Bem vindo ao nosso Marketplace #########");
+            System.out.println("\n######### Bem vindo ao nosso Marketplace #########\n");
             System.out.println("\nSelecione uma opcao abaixo:\n "
-                    + "\n1 - Acesso ao menu principal"
-                    + "\n2 - Cadastro"
+                    + "\n1 - Acesso ao Menu"
+                    + "\n2 - Cadastrar-se (Cliente)"
                     + "\n0 - Sair");
             try {
                 opcaoInicial = new Scanner(System.in).nextInt();
 
-                if (opcaoInicial < 1 || opcaoInicial > 2) {
+                if (opcaoInicial < 0 || opcaoInicial > 2) {
                     System.out.println("Opcao invalida!");
                 } else {
                     break;
@@ -41,22 +41,29 @@ public class LoginService {
         Console console = null;
 
         while (usuario == null) {
-            System.out.print("Digite seu email: ");
-            email = new Scanner(System.in).next();
-            if (email.isEmpty()) {
-                System.err.println("Campo obrigatorio!");
-                usuario = null;
-            } else {
+            
+            while (true) {
+                System.out.println("Digite seu email: ");
+                email = new Scanner(System.in).nextLine();
+                if (email.isEmpty()) {
+                    System.err.println("Campo obrigatorio!");
+                } else {
+                    break;
+                }
+            }
+
+            while (true) {
                 console = System.console();
                 senhaChar = console.readPassword("Digite sua senha: ");
 
                 if (senhaChar.length == 0) {
                     System.err.println("Campo obrigatorio!");
-                    usuario = null;
                 } else {
                     senhaString = new String(senhaChar);
+                    break;
                 }
             }
+
             usuario = LoginService.validaLogin(listaDeUsuarios, email, senhaString);
         }
         return usuario;
@@ -89,6 +96,8 @@ public class LoginService {
                         System.out.println(
                                 "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                     }
+                    // } else if (i < listaDeUsuarios.size()) {
+                    // System.out.println("\nBuscando...\n");
                 } else {
                     System.out
                             .println("\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
