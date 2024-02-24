@@ -87,10 +87,31 @@ public class Main {
                                     rodandoMenuPrincipal = false;
                                     break;
                                 case 2:
-                                    Produto novoProduto = null;
-                                    novoProduto = ProdutoService.cadastrarProduto(listaDeProdutos);
-                                    listaDeProdutos.add(novoProduto);
-                                    rodandoMenuPrincipal = false;
+                                    boolean loopMenuCadastroDeProdutos = false;
+                                    while (!loopMenuCadastroDeProdutos) {
+                                        System.out.println("Deseja cadastrar manualmente ou importar do arquivo(CSV)?\n"
+                                                + "1 - Cadastrar manualmente\n"
+                                                + "2 - Importar do arquivo\n");
+                                        try {
+                                            int opcaoCadastro = new Scanner(System.in).nextInt();
+                                            if (opcaoCadastro < 1 || opcaoCadastro > 2) {
+                                                System.err.println("Opcao invalida!");
+                                                loopMenuCadastroDeProdutos = false;
+                                            } else if (opcaoCadastro == 1) {
+                                                Produto novoProduto = null;
+                                                novoProduto = ProdutoService.cadastrarProduto(listaDeProdutos);
+                                                listaDeProdutos.add(novoProduto);
+                                                loopMenuCadastroDeProdutos = true;
+                                                rodandoMenuPrincipal = false;
+                                            } else {
+                                                listaDeProdutos = ProdutoService.importarProdutosDoArquivo(listaDeProdutos);
+                                                loopMenuCadastroDeProdutos = true;
+                                                rodandoMenuPrincipal = false;
+                                            }
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Caracter invalido!");
+                                        }
+                                    }
                                     break;
                                 case 3:
                                     if (!listaDeProdutos.isEmpty()) {

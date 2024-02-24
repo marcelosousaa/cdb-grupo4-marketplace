@@ -1,5 +1,9 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -11,7 +15,11 @@ public class ProdutoService {
 
     public static void listarProdutos(List<Produto> listaDeProdutos) {
         if (!listaDeProdutos.isEmpty()) {
-            System.err.println("ID" + "\tNome" + "\t\tQuantidade" + "\tPreco");
+            System.out.println("ID"
+                    + "\tNome"
+                    + "\tDescricao"
+                    + "\t\tQuantidade"
+                    + "\tPreco");
             for (Produto produto : listaDeProdutos) {
                 System.out.println(produto.toString());
             }
@@ -75,6 +83,26 @@ public class ProdutoService {
         return produto;
     }
 
+    public static List<Produto> cadastrarProduto(
+            List<Produto> listaDeProdutos, String nome, String descricao, double preco, int quantidade) {
+
+        long totalDeProdutos = 0l;
+        long idProduto = 0l;
+        Produto produto = null;
+
+        totalDeProdutos = listaDeProdutos.size();
+        idProduto = totalDeProdutos + 1;
+
+        try {
+            produto = new Produto(idProduto, nome, descricao, preco, quantidade);
+            listaDeProdutos.add(produto);
+            System.out.println("\nProduto cadastrado com sucesso!\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaDeProdutos;
+    }
+
     public static List<Produto> atualizarEstoque(List<Produto> listaDeProdutos) {
         long idProduto = 0l;
         int quantidade = 0;
@@ -83,8 +111,8 @@ public class ProdutoService {
             System.out.println("Digite o id do produto que deseja atualizar o estoque");
             try {
                 idProduto = new Scanner(System.in).nextLong();
-                for(int i = 0; i < listaDeProdutos.size(); i++){
-                    if(listaDeProdutos.get(i).getId() == idProduto){
+                for (int i = 0; i < listaDeProdutos.size(); i++) {
+                    if (listaDeProdutos.get(i).getId() == idProduto) {
                         System.out.println("Produto localizado!");
                         System.out.println("Digite a quantidade que deseja adicionar ao estoque: ");
                         try {
@@ -96,7 +124,7 @@ public class ProdutoService {
                         } catch (Exception e) {
                             System.out.println("Caracter invalido!");
                         }
-                    } else if(i < listaDeProdutos.size()){
+                    } else if (i < listaDeProdutos.size()) {
                         System.out.println("Buscando...");
                     } else {
                         System.out.println("Produto nao localizado!");
@@ -112,19 +140,19 @@ public class ProdutoService {
 
     public static void venderProduto(List<Produto> listaDeProdutos, long idDoProduto, int quantidadeComprada) {
         int quantidadeAtual = 0;
-        
-        if(!listaDeProdutos.isEmpty()){
-            for(int i = 0; i < listaDeProdutos.size(); i++){
-                if(listaDeProdutos.get(i).getId() == idDoProduto){
+
+        if (!listaDeProdutos.isEmpty()) {
+            for (int i = 0; i < listaDeProdutos.size(); i++) {
+                if (listaDeProdutos.get(i).getId() == idDoProduto) {
                     quantidadeAtual = listaDeProdutos.get(i).getQuantidade();
 
-                    if(quantidadeAtual > quantidadeComprada){
+                    if (quantidadeAtual > quantidadeComprada) {
                         listaDeProdutos.get(i).setQuantidade(quantidadeAtual - quantidadeComprada);
                     } else {
                         System.err.println("Quantidade indisponivel!");
                     }
 
-                } else if(i < listaDeProdutos.size()){
+                } else if (i < listaDeProdutos.size()) {
                     System.out.println("Buscando...");
                 } else {
                     System.out.println("Produto nao localizado!");
@@ -133,5 +161,34 @@ public class ProdutoService {
         } else {
             System.err.println("Houve um erro, por favor contat o Administrador do sistema.");
         }
+    }
+
+    public static List<Produto> importarProdutosDoArquivo(List<Produto> listaDeProdutos)
+            throws IOException, InterruptedIOException {
+        System.out.println("Digite o nome do arquivo:");
+        String nomeArquivo = new Scanner(System.in).nextLine();
+
+        // NO MOMENTO QUE INICIAR A TENTATIVA A VARIAVEL SERA ASSINALADA
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(nomeArquivo));
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar o arquivo: " + nomeArquivo);
+        }
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] campos = line.split(",");
+            String nome = campos[0];
+            String descricao = campos[1];
+            double preco = Double.parseDouble(campos[2]);
+            int quantidade = Integer.parseInt(campos[3]);
+            listaDeProdutos = ProdutoService.cadastrarProduto(listaDeProdutos, nome, descricao, preco, quantidade);
+        }
+        System.out.println("Produtos importados com sucesso!\n");
+        reader.close();
+
+        ProdutoService.listarProdutos(listaDeProdutos);
+
+        return listaDeProdutos;
     }
 }
