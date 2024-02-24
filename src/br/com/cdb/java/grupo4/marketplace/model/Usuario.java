@@ -1,16 +1,22 @@
 package br.com.cdb.java.grupo4.marketplace.model;
 
 public abstract class Usuario {
+    private long id;
     private String nome;
     private String senha;
     private String email;
     private char funcao;
 
-    public Usuario(String nome, String senha, String email, char funcao) {
+    public Usuario(long id, String nome, String senha, String email, char funcao) {
+        this.id = id;
         this.nome = nome;
         this.senha = senha;
         this.email = email;
         this.funcao = funcao;
+    }
+
+    public long getId(){
+        return this.id;
     }
     
     public String getNome() {

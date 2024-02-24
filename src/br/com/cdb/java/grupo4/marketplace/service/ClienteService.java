@@ -9,7 +9,7 @@ import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class ClienteService {
 
-    public static Cliente cadastrarCliente() {
+    public static Cliente cadastrarCliente(List<Usuario> listaDeUsuarios) {
         Console console = null;
         Cliente clienteCadastrado = null;
         String nome;
@@ -18,6 +18,15 @@ public class ClienteService {
         String email;
         String telefone;
         String endereco;
+        long totalDeClientes = 0l;
+        long idCliente = 0l;
+        
+        for (Usuario usuario : listaDeUsuarios) {
+            if(usuario instanceof Cliente){
+                totalDeClientes ++;
+            }
+        }
+        idCliente = totalDeClientes + 1;
 
         while (true) {
             System.out.println("Digite seu nome: ");
@@ -71,7 +80,7 @@ public class ClienteService {
             }
         }
 
-        clienteCadastrado = new Cliente(nome, senhaString, email, email, telefone, endereco);
+        clienteCadastrado = new Cliente(idCliente, nome, senhaString, email, email, telefone, endereco);
 
         System.out.println("Cadastro realizado com sucesso!");
 

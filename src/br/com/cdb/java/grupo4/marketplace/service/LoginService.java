@@ -70,6 +70,7 @@ public class LoginService {
                     if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
                         if (listaDeUsuarios.get(i).getFuncao() == 'C') {
                             usuario = new Cliente(
+                                    listaDeUsuarios.get(i).getId(),
                                     listaDeUsuarios.get(i).getNome(),
                                     listaDeUsuarios.get(i).getSenha(),
                                     listaDeUsuarios.get(i).getEmail(),
@@ -78,6 +79,7 @@ public class LoginService {
                                     ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
                         } else {
                             usuario = new Administrador(
+                                    listaDeUsuarios.get(i).getId(),
                                     listaDeUsuarios.get(i).getNome(),
                                     listaDeUsuarios.get(i).getSenha(),
                                     listaDeUsuarios.get(i).getEmail());

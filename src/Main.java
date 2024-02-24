@@ -39,7 +39,7 @@ public class Main {
                     rodandoMain = true;
                     break;
                 case 2:
-                    cliente = ClienteService.cadastrarCliente();
+                    cliente = ClienteService.cadastrarCliente(listaDeUsuarios);
                     listaDeUsuarios.add(cliente);
                     UsuarioService.listarUsuarios(listaDeUsuarios);
                     opcaoRetornada = LoginService.telaDeLogin();
@@ -76,7 +76,7 @@ public class Main {
                         rodandoMenuPrincipal = false;
                     } else if (opcaoSelecionada == 2) {
                         Produto novoProduto = null;
-                        novoProduto = ProdutoService.adicionarProduto();
+                        novoProduto = ProdutoService.cadastrarProduto(listaDeProdutos);
                         listaDeProdutos.add(novoProduto);
                         System.out.println("Produto cadastrado com sucesso!!");
                         System.out.println("Pressione qualquer tecla para retornar ao menu");
