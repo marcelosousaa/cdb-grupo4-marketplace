@@ -1,6 +1,8 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
 import java.io.Console;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +35,8 @@ public class LoginService {
         return opcaoInicial;
     }
 
-    public static Usuario login(List<Usuario> listaDeUsuarios) {
+    public static Usuario login(List<Usuario> listaDeUsuarios)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
         String email = null;
         char[] senhaChar;
         String senhaString = null;
@@ -41,7 +44,7 @@ public class LoginService {
         Console console = null;
 
         while (usuario == null) {
-            
+
             while (true) {
                 System.out.println("Digite seu email: ");
                 email = new Scanner(System.in).nextLine();
@@ -69,35 +72,39 @@ public class LoginService {
         return usuario;
     }
 
-    private static Usuario validaLogin(List<Usuario> listaDeUsuarios, String email, String senha) {
+    private static Usuario validaLogin(List<Usuario> listaDeUsuarios, String email, String senha)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
         Usuario usuario = null;
         if (!listaDeUsuarios.isEmpty()) {
             for (int i = 0; i < listaDeUsuarios.size(); i++) {
                 if (listaDeUsuarios.get(i).getEmail().equals(email)) {
-                    if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
-                        if (listaDeUsuarios.get(i).getFuncao() == 'C') {
-                            usuario = new Cliente(
-                                    listaDeUsuarios.get(i).getId(),
-                                    listaDeUsuarios.get(i).getNome(),
-                                    listaDeUsuarios.get(i).getSenha(),
-                                    listaDeUsuarios.get(i).getEmail(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
-                        } else {
+                    if (listaDeUsuarios.get(i).getFuncao() == 'A') {
+                        if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
                             usuario = new Administrador(
                                     listaDeUsuarios.get(i).getId(),
                                     listaDeUsuarios.get(i).getNome(),
                                     listaDeUsuarios.get(i).getSenha(),
                                     listaDeUsuarios.get(i).getEmail());
+                        } else {
+                            System.out.println(
+                                    "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                         }
+                    } else if (PasswordService.validarSenha(senha, listaDeUsuarios.get(i).getSenha()) == true) {
+                        usuario = new Cliente(
+                                listaDeUsuarios.get(i).getId(),
+                                listaDeUsuarios.get(i).getNome(),
+                                listaDeUsuarios.get(i).getSenha(),
+                                listaDeUsuarios.get(i).getEmail(),
+                                ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
+                                ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
+                                ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
                         System.out.println("\nLogin realizado com sucesso!\n");
                     } else {
                         System.out.println(
                                 "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                     }
-                    // } else if (i < listaDeUsuarios.size()) {
-                    // System.out.println("\nBuscando...\n");
+                } else if (i < listaDeUsuarios.size()) {
+                    System.out.println("\nBuscando...\n");
                 } else {
                     System.out
                             .println("\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
