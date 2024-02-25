@@ -1,6 +1,8 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
 import java.io.Console;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +13,7 @@ import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class ClienteService {
 
-    public static Cliente cadastrarCliente(List<Usuario> listaDeUsuarios) {
+    public static Cliente cadastrarCliente(List<Usuario> listaDeUsuarios) throws NoSuchAlgorithmException, InvalidKeySpecException {
         Console console = null;
         Cliente clienteCadastrado = null;
         String nome;
@@ -48,6 +50,7 @@ public class ClienteService {
                 System.err.println("Campo obrigatorio!");
             } else {
                 senhaString = new String(senhaChar);
+                senhaString = PasswordService.gerarSenhaForte(senhaString);
                 break;
             }
         }
