@@ -5,11 +5,13 @@ import java.util.Scanner;
 
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
+import br.com.cdb.java.grupo4.marketplace.model.Pedido;
 import br.com.cdb.java.grupo4.marketplace.model.Produto;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 import br.com.cdb.java.grupo4.marketplace.service.AdmService;
 import br.com.cdb.java.grupo4.marketplace.service.ClienteService;
 import br.com.cdb.java.grupo4.marketplace.service.LoginService;
+import br.com.cdb.java.grupo4.marketplace.service.PedidoService;
 import br.com.cdb.java.grupo4.marketplace.service.ProdutoService;
 import br.com.cdb.java.grupo4.marketplace.service.UsuarioService;
 
@@ -27,6 +29,10 @@ public class Main {
         Administrador adm = null;
         List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
         List<Produto> listaDeProdutos = new ArrayList<Produto>();
+        List<Pedido> listaDePedidos = new ArrayList<Pedido>();
+        
+        //Pedido pedido = PedidoService.criarPedido(cliente, carrinho);
+        //listaDePedidos.add(pedido);
 
         // CRIAR ADM PADRAO
         adm = AdmService.criarAdministrador();
@@ -104,7 +110,8 @@ public class Main {
                                                 loopMenuCadastroDeProdutos = true;
                                                 rodandoMenuPrincipal = false;
                                             } else {
-                                                listaDeProdutos = ProdutoService.importarProdutosDoArquivo(listaDeProdutos);
+                                                listaDeProdutos = ProdutoService
+                                                        .importarProdutosDoArquivo(listaDeProdutos);
                                                 loopMenuCadastroDeProdutos = true;
                                                 rodandoMenuPrincipal = false;
                                             }
@@ -156,12 +163,17 @@ public class Main {
                         opcaoSelecionada = new Scanner(System.in).nextInt();
                         if (opcaoSelecionada < 0 || opcaoSelecionada > 2) {
                             System.out.println("Opcao invalida!");
-                        } else if (opcaoSelecionada == 1) {
-                            ClienteService.gerenciarCarteira(usuario);
-                            rodandoMenuPrincipal = true;
                         } else {
-                            ClienteService.menuCompras(usuario);
-                            rodandoMenuPrincipal = true;
+                            switch (opcaoSelecionada) {
+                                case 1:
+                                    ClienteService.gerenciarCarteira(usuario);
+                                    rodandoMenuPrincipal = true;
+                                    break;
+                                case 2:
+                                    ClienteService.menuCompras(usuario);
+                                    rodandoMenuPrincipal = true;
+                                    break;
+                            }
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Caracter invalido!");

@@ -1,10 +1,12 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
 import java.io.Console;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
+import br.com.cdb.java.grupo4.marketplace.model.Produto;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class ClienteService {
@@ -20,10 +22,10 @@ public class ClienteService {
         String endereco;
         long totalDeClientes = 0l;
         long idCliente = 0l;
-        
+
         for (Usuario usuario : listaDeUsuarios) {
-            if(usuario instanceof Cliente){
-                totalDeClientes ++;
+            if (usuario instanceof Cliente) {
+                totalDeClientes++;
             }
         }
         idCliente = totalDeClientes + 1;
@@ -108,5 +110,32 @@ public class ClienteService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'gerenciarCarteira'");
     }
+
+    public static void exibirCarrinho(List<Produto> carrinho, Cliente cliente) {
+        System.out.println("Usuario: " + cliente.getNome());
+        System.out.println("Carrinho de compras");
+        ProdutoService.listarProdutos(carrinho);
+    }
+
+    public static void criarPedido(List<Produto> listaDeProdutos) {
+        ProdutoService.listarProdutos(listaDeProdutos);
+
+        long idProduto = 0l;
+
+        System.out.println("Digite o id do produto que deseja comprar: ");
+
+        try {
+            idProduto = new Scanner(System.in).nextLong();
+            for(int i = 0; i < listaDeProdutos.size(); i++){
+
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Caracter invalido!");
+        }
+    }
+
+
+
 
 }
