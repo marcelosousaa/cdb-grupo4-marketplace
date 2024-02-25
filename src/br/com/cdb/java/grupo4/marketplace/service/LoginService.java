@@ -78,23 +78,26 @@ public class LoginService {
         if (!listaDeUsuarios.isEmpty()) {
             for (int i = 0; i < listaDeUsuarios.size(); i++) {
                 if (listaDeUsuarios.get(i).getEmail().equals(email)) {
-                    if (PasswordService.validarSenha(senha, listaDeUsuarios.get(i).getSenha()) == true) {
-                        if (listaDeUsuarios.get(i).getFuncao() == 'C') {
-                            usuario = new Cliente(
-                                    listaDeUsuarios.get(i).getId(),
-                                    listaDeUsuarios.get(i).getNome(),
-                                    listaDeUsuarios.get(i).getSenha(),
-                                    listaDeUsuarios.get(i).getEmail(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
-                                    ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
-                        } else {
+                    if (listaDeUsuarios.get(i).getFuncao() == 'A') {
+                        if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
                             usuario = new Administrador(
                                     listaDeUsuarios.get(i).getId(),
                                     listaDeUsuarios.get(i).getNome(),
                                     listaDeUsuarios.get(i).getSenha(),
                                     listaDeUsuarios.get(i).getEmail());
+                        } else {
+                            System.out.println(
+                                    "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                         }
+                    } else if (PasswordService.validarSenha(senha, listaDeUsuarios.get(i).getSenha()) == true) {
+                        usuario = new Cliente(
+                                listaDeUsuarios.get(i).getId(),
+                                listaDeUsuarios.get(i).getNome(),
+                                listaDeUsuarios.get(i).getSenha(),
+                                listaDeUsuarios.get(i).getEmail(),
+                                ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
+                                ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
+                                ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
                         System.out.println("\nLogin realizado com sucesso!\n");
                     } else {
                         System.out.println(

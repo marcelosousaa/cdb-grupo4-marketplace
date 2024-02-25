@@ -14,11 +14,27 @@ public class ProdutoService {
 
     public static void listarProdutos(List<Produto> listaDeProdutos) {
         if (!listaDeProdutos.isEmpty()) {
-            System.out.println("ID"
-                    + "\tNome"
-                    + "\tDescricao"
-                    + "\t\tQuantidade"
-                    + "\tPreco");
+
+            int larguraColunaId = 10;
+            int larguraColunaNome = 20;
+            int larguraColunaDescricao = 30;
+            int larguraColunaPreco = 10;
+            int larguraColunaQuantidade = 20;
+
+            System.out.println(String.format("%-"
+                    + larguraColunaId + "s%-"
+                    + larguraColunaNome + "s%-"
+                    + larguraColunaDescricao + "s%-"
+                    + larguraColunaQuantidade + "s%-"
+                    + larguraColunaPreco + "s",
+                    "ID", "Nome", "Descricao", "Quantidade", "Preco"));
+
+            System.out.println("-".repeat(larguraColunaId
+                    + larguraColunaNome
+                    + larguraColunaDescricao
+                    + larguraColunaQuantidade
+                    + larguraColunaPreco));
+
             for (Produto produto : listaDeProdutos) {
                 System.out.println(produto.toString());
             }
@@ -191,5 +207,4 @@ public class ProdutoService {
         return listaDeProdutos;
     }
 
-    
 }

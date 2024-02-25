@@ -1,6 +1,8 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
 import java.io.Console;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +16,7 @@ public class AdmService {
         return adm;
     }
 
-    public static Administrador cadastrarAdministrador(List<Usuario> listaDeUsuarios){
+    public static Administrador cadastrarAdministrador(List<Usuario> listaDeUsuarios) throws NoSuchAlgorithmException, InvalidKeySpecException{
         String nome = null;
         char [] senhaChar;
         String senhaString = null;
@@ -48,6 +50,7 @@ public class AdmService {
                 System.err.println("Campo obrigatorio!");
             } else {
                 senhaString = new String(senhaChar);
+                senhaString = PasswordService.gerarSenhaForte(senhaString);
                 break;
             }
         }

@@ -15,7 +15,7 @@ public class PasswordService {
         String senhaForte = null;
 
         senhaForte = geradorDeSenhaForte(senhaOriginal);
-        System.out.println(senhaForte);
+        //System.out.println(senhaForte);
         
         return senhaForte;
     }
@@ -33,7 +33,6 @@ public class PasswordService {
     }
 
     //VALIDA SENHA DO USARIO
-
     public static boolean validarSenha(String senhaOriginal, String senhaArmazenada) 
     throws NoSuchAlgorithmException, InvalidKeySpecException{
 
@@ -56,7 +55,6 @@ public class PasswordService {
     }
 
     //METODOS AUXILIARES
-
     private static byte[] getSalt() throws NoSuchAlgorithmException{
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
@@ -85,7 +83,5 @@ public class PasswordService {
 
         return bytes;
     }
-
-
 
 }
