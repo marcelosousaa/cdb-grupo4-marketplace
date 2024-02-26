@@ -122,7 +122,7 @@ public class Main {
                                 case 3:
                                     if (!listaDeProdutos.isEmpty()) {
                                         ProdutoService.listarProdutos(listaDeProdutos);
-                                        listaDeProdutos = ProdutoService.atualizarEstoque(listaDeProdutos);
+                                        listaDeProdutos = ProdutoService.gerenciarEstoque(listaDeProdutos);
                                         ProdutoService.listarProdutos(listaDeProdutos);
                                         rodandoMenuPrincipal = false;
                                     } else {

@@ -118,41 +118,6 @@ public class ProdutoService {
         return listaDeProdutos;
     }
 
-    public static List<Produto> atualizarEstoque(List<Produto> listaDeProdutos) {
-        long idProduto = 0l;
-        int quantidade = 0;
-
-        while (true) {
-            System.out.println("Digite o id do produto que deseja atualizar o estoque");
-            try {
-                idProduto = new Scanner(System.in).nextLong();
-                for (int i = 0; i < listaDeProdutos.size(); i++) {
-                    if (listaDeProdutos.get(i).getId() == idProduto) {
-                        System.out.println("Produto localizado!");
-                        System.out.println("Digite a quantidade que deseja adicionar ao estoque: ");
-                        try {
-                            quantidade = new Scanner(System.in).nextInt();
-                            quantidade += listaDeProdutos.get(i).getQuantidade();
-                            listaDeProdutos.get(i).setQuantidade(quantidade);
-                            System.out.println("Valor atualizado!\n");
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Caracter invalido!");
-                        }
-                    } else if (i < listaDeProdutos.size()) {
-                        System.out.println("Buscando...");
-                    } else {
-                        System.out.println("Produto nao localizado!");
-                    }
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Caracter invalido!");
-            }
-        }
-        return listaDeProdutos;
-    }
-
     public static void venderProduto(List<Produto> listaDeProdutos, long idDoProduto, int quantidadeComprada) {
         int quantidadeAtual = 0;
 
@@ -162,7 +127,7 @@ public class ProdutoService {
                     quantidadeAtual = listaDeProdutos.get(i).getQuantidade();
 
                     if (quantidadeAtual > quantidadeComprada) {
-                        listaDeProdutos.get(i).setQuantidade(quantidadeAtual - quantidadeComprada);
+                        listaDeProdutos.get(i).subtrairQuantidade(quantidadeComprada);
                     } else {
                         System.err.println("Quantidade indisponivel!");
                     }
@@ -207,4 +172,111 @@ public class ProdutoService {
         return listaDeProdutos;
     }
 
+    public static List<Produto> gerenciarEstoque(List<Produto> listaDeProdutos) {
+        if (!listaDeProdutos.isEmpty()) {
+            System.out.println("\nDigite o ID do produto que deseja atualizar: ");
+            try {
+                long idProduto = new Scanner(System.in).nextLong();
+
+                for (int i = 0; i < listaDeProdutos.size(); i++) {
+                    if (listaDeProdutos.get(i).getId() == idProduto) {
+                        System.out.println("Produto localizado!");
+
+                        while (true) {
+                            System.out.println("Selecione o tipo de atualizacao\n"
+                                    + "1 - Atualizar preco\n"
+                                    + "2 - Atualizar quantidades");
+
+                            try {
+                                int opcaoSelecionada = new Scanner(System.in).nextInt();
+                                if (opcaoSelecionada < 0 || opcaoSelecionada > 2) {
+                                    System.out.println("Opcao invalida!");
+                                } else {
+                                    switch (opcaoSelecionada) {
+                                        case 1:
+                                            listaDeProdutos = atualizarPreco(listaDeProdutos, idProduto);
+                                            break;
+                                        case 2:
+                                            listaDeProdutos = atualizarQuantidade(listaDeProdutos, idProduto);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Caracter invalido!");
+                            }
+                            break;
+                        }
+                    } else if (i < listaDeProdutos.size() - 1) {
+                        System.out.println("Buscando...");
+                    } else {
+                        System.err.println("Produto nao localizado.");
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Caracter invalido!");
+            }
+        } else {
+            System.out.println("A lista de produtos esta vazia!");
+        }
+
+        return listaDeProdutos;
+    }
+
+    private static List<Produto> atualizarQuantidade(List<Produto> listaDeProdutos, long idProduto) {
+
+        for (int i = 0; i < listaDeProdutos.size(); i++) {
+            if (listaDeProdutos.get(i).getId() == idProduto) {
+                System.out.println("Produto localizado\n");
+                while (true) {
+                    System.out.println("\nDigite a quantidade que deseja adicionar: ");
+                    try {
+                        int quantidadeAdicional = new Scanner(System.in).nextInt();
+                        if (quantidadeAdicional < 0) {
+                            System.out.println("Valor invalido!");
+                        } else {
+                            listaDeProdutos.get(i).adicionarQuantidade(quantidadeAdicional);
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Caracter e/ou formato invalido!");
+                    }
+                }
+            } else if (i < listaDeProdutos.size()) {
+                System.out.println("Buscando...");
+            } else {
+                System.out.println("Produto nao localizado!");
+            }
+        }
+        return listaDeProdutos;
+    }
+
+    private static List<Produto> atualizarPreco(List<Produto> listaDeProdutos, long idProduto) {
+
+        for (int i = 0; i < listaDeProdutos.size(); i++) {
+            if (listaDeProdutos.get(i).getId() == idProduto) {
+                System.out.println("Produto localizado\n");
+                while (true) {
+                    System.out.println("Digite o novo preco: ");
+                    try {
+                        double novoPreco = new Scanner(System.in).nextDouble();
+                        if (novoPreco < 0) {
+                            System.out.println("Valor invalido!");
+                        } else {
+                            listaDeProdutos.get(i).setPreco(novoPreco);
+                            break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Caracter e/ou formato invalido!");
+                    }
+                }
+            } else if (i < listaDeProdutos.size()) {
+                System.out.println("Buscando...");
+            } else {
+                System.out.println("Produto nao localizado!");
+            }
+        }
+        return listaDeProdutos;
+    }
 }
