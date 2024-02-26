@@ -10,6 +10,7 @@ import java.util.Scanner;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
 import br.com.cdb.java.grupo4.marketplace.model.Produto;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
+import br.com.cdb.java.grupo4.marketplace.util.ValidatorUtil;
 
 public class ClienteService {
 
@@ -24,6 +25,7 @@ public class ClienteService {
         String endereco;
         long totalDeClientes = 0l;
         long idCliente = 0l;
+        ValidatorUtil validatorUtil = new ValidatorUtil();
 
         for (Usuario usuario : listaDeUsuarios) {
             if (usuario instanceof Cliente) {
@@ -60,17 +62,22 @@ public class ClienteService {
             email = new Scanner(System.in).nextLine();
             if (email.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
+            } else if(!validatorUtil.validaEmail(email)){
+                System.err.println("Formato invalido, digite novamente!");
             } else {
                 break;
             }
         }
 
         while (true) {
-            System.out.println("Digite o seu telefone: ");
+            System.out.println("Informe seu telefone com DDD, no formato (XX) XXXXX-XXXX: " );
             telefone = new Scanner(System.in).nextLine();
             if (telefone.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
+            } else if(!validatorUtil.validaTelefone(telefone)){
+                System.err.println("Formato invalido, digite novamente!");
             } else {
+                System.out.println(telefone);
                 break;
             }
         }
