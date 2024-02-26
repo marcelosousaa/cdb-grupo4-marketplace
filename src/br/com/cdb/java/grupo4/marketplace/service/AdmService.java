@@ -1,13 +1,6 @@
 package br.com.cdb.java.grupo4.marketplace.service;
 
-import java.io.Console;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import java.util.Scanner;
-
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
-import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 
 public class AdmService {
 
@@ -16,57 +9,57 @@ public class AdmService {
         return adm;
     }
 
-    public static Administrador cadastrarAdministrador(List<Usuario> listaDeUsuarios) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        String nome = null;
-        char [] senhaChar;
-        String senhaString = null;
-        Console console = null;
-        String email = null;
-        long totalDeAdministradores = 0l;
-        long idAdministrador = 0l;
+    // public static Administrador cadastrarAdministrador(List<Usuario> listaDeUsuarios) throws NoSuchAlgorithmException, InvalidKeySpecException{
+    //     String nome = null;
+    //     char [] senhaChar;
+    //     String senhaString = null;
+    //     Console console = null;
+    //     String email = null;
+    //     long totalDeAdministradores = 0l;
+    //     long idAdministrador = 0l;
         
-        for (Usuario usuario : listaDeUsuarios) {
-            if(usuario instanceof Administrador){
-                totalDeAdministradores ++;
-            }
-        }
-        idAdministrador = totalDeAdministradores + 1;
+    //     for (Usuario usuario : listaDeUsuarios) {
+    //         if(usuario instanceof Administrador){
+    //             totalDeAdministradores ++;
+    //         }
+    //     }
+    //     idAdministrador = totalDeAdministradores + 1;
 
-        while (true) {
-            System.out.println("Digite o nome: ");
-            nome = new Scanner(System.in).nextLine();
-            if (nome.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
-            } else {
-                break;
-            }
-        }
+    //     while (true) {
+    //         System.out.println("Digite o nome: ");
+    //         nome = new Scanner(System.in).nextLine();
+    //         if (nome.isEmpty()) {
+    //             System.out.println("Campo obrigatorio!");
+    //         } else {
+    //             break;
+    //         }
+    //     }
 
-        while (true) {
-            console = System.console();
-            senhaChar = console.readPassword("Defina a senha: ");
+    //     while (true) {
+    //         console = System.console();
+    //         senhaChar = console.readPassword("Defina a senha: ");
 
-            if (senhaChar.length == 0) {
-                System.err.println("Campo obrigatorio!");
-            } else {
-                senhaString = new String(senhaChar);
-                senhaString = PasswordService.gerarSenhaForte(senhaString);
-                break;
-            }
-        }
+    //         if (senhaChar.length == 0) {
+    //             System.err.println("Campo obrigatorio!");
+    //         } else {
+    //             senhaString = new String(senhaChar);
+    //             senhaString = PasswordService.gerarSenhaForte(senhaString);
+    //             break;
+    //         }
+    //     }
 
-        while (true) {
-            System.out.println("Digite o email: ");
-            email = new Scanner(System.in).nextLine();
-            if (email.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
-            } else {
-                break;
-            }
-        }
+    //     while (true) {
+    //         System.out.println("Digite o email: ");
+    //         email = new Scanner(System.in).nextLine();
+    //         if (email.isEmpty()) {
+    //             System.out.println("Campo obrigatorio!");
+    //         } else {
+    //             break;
+    //         }
+    //     }
 
-        Administrador novoAdministrador = new Administrador(idAdministrador, nome, senhaString, email);
-        System.out.println("Novo administrador cadastrado com sucesso!\n");
-        return novoAdministrador;
-    }
+    //     Administrador novoAdministrador = new Administrador(idAdministrador, nome, senhaString, email);
+    //     System.out.println("Novo administrador cadastrado com sucesso!\n");
+    //     return novoAdministrador;
+    // }
 }

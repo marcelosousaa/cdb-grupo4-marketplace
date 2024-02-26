@@ -78,8 +78,7 @@ public class Main {
                             + "\n 1 - Listar estoque"
                             + "\n 2 - Cadastrar novo produto"
                             + "\n 3 - Registar recebimento de produtos"
-                            //+ "\n 4 - Cadastrar novo Administrador"
-                            + "\n 5 - Retornar ao menu de login"
+                            + "\n 4 - Retornar ao menu de login"
                             + "\n 0 - sair");
                     try {
                         opcaoSelecionada = new Scanner(System.in).nextInt();
@@ -131,13 +130,7 @@ public class Main {
                                         rodandoMenuPrincipal = false;
                                     }
                                     break;
-                                // case 4:
-                                //     adm = AdmService.cadastrarAdministrador(listaDeUsuarios);
-                                //     listaDeUsuarios.add(adm);
-                                //     UsuarioService.listarUsuarios(listaDeUsuarios);
-                                //     rodandoMenuPrincipal = false;
-                                //     break;
-                                case 5:
+                                case 4:
                                     System.out.println("Retornando ao menu principal...\n");
                                     rodandoMenuPrincipal = true;
                                     break;
