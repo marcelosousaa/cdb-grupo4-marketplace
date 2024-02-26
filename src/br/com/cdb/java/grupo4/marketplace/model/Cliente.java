@@ -43,7 +43,7 @@ public final class Cliente extends Usuario {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo = saldo;
+        this.saldo += saldo;
     }
 
     @Override

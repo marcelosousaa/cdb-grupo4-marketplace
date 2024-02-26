@@ -37,6 +37,7 @@ public class Main {
             int opcaoRetornada = 0;
             opcaoRetornada = LoginService.telaDeLogin();
             rodandoMenuLogin = false;
+            rodandoMenuPrincipal = false;
 
             // MENU LOGIN
             while (!rodandoMenuLogin) {
