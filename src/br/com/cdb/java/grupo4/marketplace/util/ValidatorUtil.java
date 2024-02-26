@@ -15,4 +15,14 @@ public class ValidatorUtil {
         return email.matches(emailPattern);
     }
 
+    public boolean validaDataDeNascimento(String dataDeNascimento){
+        String dataDeNascimentoPattern = "\\d{1,2}\\/\\d{1,2}\\/\\d{4}";
+        return dataDeNascimento.matches(dataDeNascimentoPattern);
+    }
+
+    public boolean validarNomeDoArquivoDeImportacao(String nomeDoArquivo){
+        String nomeDoArquivoPattern = ".+\\.csv";
+        return nomeDoArquivo.matches(nomeDoArquivoPattern);
+    }
+
 }

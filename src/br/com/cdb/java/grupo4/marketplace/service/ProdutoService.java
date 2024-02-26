@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import br.com.cdb.java.grupo4.marketplace.model.Produto;
+import br.com.cdb.java.grupo4.marketplace.util.ValidatorUtil;
 
 public class ProdutoService {
 
@@ -145,30 +146,46 @@ public class ProdutoService {
 
     public static List<Produto> importarProdutosDoArquivo(List<Produto> listaDeProdutos)
             throws IOException, InterruptedIOException {
-        System.out.println("Digite o nome do arquivo:");
-        String nomeArquivo = new Scanner(System.in).nextLine();
 
-        // NO MOMENTO QUE INICIAR A TENTATIVA A VARIAVEL SERA ASSINALADA
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(nomeArquivo));
-        } catch (IOException e) {
-            System.err.println("Erro ao carregar o arquivo: " + nomeArquivo);
+        ValidatorUtil validatorUtil = new ValidatorUtil();
+        
+        while (true) {
+            System.out.println("Digite o nome do arquivo:");
+            String nomeArquivo = new Scanner(System.in).nextLine();
+            if (!nomeArquivo.isEmpty()) {
+                if (!validatorUtil.validarNomeDoArquivoDeImportacao(nomeArquivo)) {
+                    System.err.println("Formato invalido!");
+                } else {
+                    BufferedReader reader = null;
+                    try {
+                        reader = new BufferedReader(new FileReader(nomeArquivo));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            String[] campos = line.split(",");
+                            String nome = campos[0];
+                            String descricao = campos[1];
+                            double preco = Double.parseDouble(campos[2]);
+                            int quantidade = Integer.parseInt(campos[3]);
+                            listaDeProdutos = ProdutoService.cadastrarProduto(
+                                    listaDeProdutos,
+                                    nome,
+                                    descricao,
+                                    preco,
+                                    quantidade);
+                        }
+                        reader.close();
+                    } catch (IOException e) {
+                        System.err.println("Erro ao carregar o arquivo: " + nomeArquivo);
+                    }
+                    ProdutoService.listarProdutos(listaDeProdutos);
+                    validatorUtil = null;
+                    break;
+                }
+    
+            } else {
+                System.err.println("Digite o nome do arquivo!");
+            }   
         }
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] campos = line.split(",");
-            String nome = campos[0];
-            String descricao = campos[1];
-            double preco = Double.parseDouble(campos[2]);
-            int quantidade = Integer.parseInt(campos[3]);
-            listaDeProdutos = ProdutoService.cadastrarProduto(listaDeProdutos, nome, descricao, preco, quantidade);
-        }
-        System.out.println("Produtos importados com sucesso!\n");
-        reader.close();
-
-        ProdutoService.listarProdutos(listaDeProdutos);
-
         return listaDeProdutos;
     }
 
@@ -195,9 +212,11 @@ public class ProdutoService {
                                     switch (opcaoSelecionada) {
                                         case 1:
                                             listaDeProdutos = atualizarPreco(listaDeProdutos, idProduto);
+                                            listarProdutos(listaDeProdutos);
                                             break;
                                         case 2:
                                             listaDeProdutos = atualizarQuantidade(listaDeProdutos, idProduto);
+                                            listarProdutos(listaDeProdutos);
                                             break;
                                         default:
                                             break;
@@ -225,10 +244,8 @@ public class ProdutoService {
     }
 
     private static List<Produto> atualizarQuantidade(List<Produto> listaDeProdutos, long idProduto) {
-
         for (int i = 0; i < listaDeProdutos.size(); i++) {
             if (listaDeProdutos.get(i).getId() == idProduto) {
-                System.out.println("Produto localizado\n");
                 while (true) {
                     System.out.println("\nDigite a quantidade que deseja adicionar: ");
                     try {
@@ -243,20 +260,14 @@ public class ProdutoService {
                         System.out.println("Caracter e/ou formato invalido!");
                     }
                 }
-            } else if (i < listaDeProdutos.size()) {
-                System.out.println("Buscando...");
-            } else {
-                System.out.println("Produto nao localizado!");
-            }
+            } 
         }
         return listaDeProdutos;
     }
 
     private static List<Produto> atualizarPreco(List<Produto> listaDeProdutos, long idProduto) {
-
         for (int i = 0; i < listaDeProdutos.size(); i++) {
             if (listaDeProdutos.get(i).getId() == idProduto) {
-                System.out.println("Produto localizado\n");
                 while (true) {
                     System.out.println("Digite o novo preco: ");
                     try {
@@ -271,10 +282,6 @@ public class ProdutoService {
                         System.out.println("Caracter e/ou formato invalido!");
                     }
                 }
-            } else if (i < listaDeProdutos.size()) {
-                System.out.println("Buscando...");
-            } else {
-                System.out.println("Produto nao localizado!");
             }
         }
         return listaDeProdutos;
