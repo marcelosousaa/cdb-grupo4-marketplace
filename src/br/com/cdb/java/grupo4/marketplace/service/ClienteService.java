@@ -18,6 +18,7 @@ public class ClienteService {
         Console console = null;
         Cliente clienteCadastrado = null;
         String nome;
+        String dataDeNascimento = null;
         String senhaString;
         char[] senhaChar;
         String email;
@@ -39,6 +40,18 @@ public class ClienteService {
             nome = new Scanner(System.in).nextLine();
             if (nome.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
+            } else {
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("Digite sua data de nascimento, no formato (XX/XX/XXXX): ");
+            dataDeNascimento = new Scanner(System.in).nextLine();
+            if(dataDeNascimento.isEmpty()){
+                System.err.println("Campo obrigatorio!");
+            } else if(!validatorUtil.validaDataDeNascimento(dataDeNascimento)){
+                System.err.println("Formato invalido!");
             } else {
                 break;
             }
@@ -92,7 +105,7 @@ public class ClienteService {
             }
         }
 
-        clienteCadastrado = new Cliente(idCliente, nome, senhaString, email, email, telefone, endereco);
+        clienteCadastrado = new Cliente(idCliente, nome, senhaString, email, telefone, endereco, dataDeNascimento);
 
         System.out.println("Cadastro realizado com sucesso!");
 
@@ -144,8 +157,4 @@ public class ClienteService {
             System.out.println("Caracter invalido!");
         }
     }
-
-
-
-
 }

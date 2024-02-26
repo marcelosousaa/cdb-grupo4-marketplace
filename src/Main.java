@@ -5,15 +5,12 @@ import java.util.Scanner;
 
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
-import br.com.cdb.java.grupo4.marketplace.model.Pedido;
 import br.com.cdb.java.grupo4.marketplace.model.Produto;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 import br.com.cdb.java.grupo4.marketplace.service.AdmService;
 import br.com.cdb.java.grupo4.marketplace.service.ClienteService;
 import br.com.cdb.java.grupo4.marketplace.service.LoginService;
-import br.com.cdb.java.grupo4.marketplace.service.PedidoService;
 import br.com.cdb.java.grupo4.marketplace.service.ProdutoService;
-import br.com.cdb.java.grupo4.marketplace.service.UsuarioService;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -29,10 +26,6 @@ public class Main {
         Administrador adm = null;
         List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
         List<Produto> listaDeProdutos = new ArrayList<Produto>();
-        List<Pedido> listaDePedidos = new ArrayList<Pedido>();
-        
-        //Pedido pedido = PedidoService.criarPedido(cliente, carrinho);
-        //listaDePedidos.add(pedido);
 
         // CRIAR ADM PADRAO
         adm = AdmService.criarAdministrador();
@@ -44,6 +37,7 @@ public class Main {
             int opcaoRetornada = 0;
             opcaoRetornada = LoginService.telaDeLogin();
             rodandoMenuLogin = false;
+            rodandoMenuPrincipal = false;
 
             // MENU LOGIN
             while (!rodandoMenuLogin) {
@@ -122,8 +116,8 @@ public class Main {
                                 case 3:
                                     if (!listaDeProdutos.isEmpty()) {
                                         ProdutoService.listarProdutos(listaDeProdutos);
-                                        listaDeProdutos = ProdutoService.atualizarEstoque(listaDeProdutos);
-                                        ProdutoService.listarProdutos(listaDeProdutos);
+                                        listaDeProdutos = ProdutoService.gerenciarEstoque(listaDeProdutos);
+                                        //ProdutoService.listarProdutos(listaDeProdutos);
                                         rodandoMenuPrincipal = false;
                                     } else {
                                         System.err.println("Ainda nao ha produtos cadastrados...");
