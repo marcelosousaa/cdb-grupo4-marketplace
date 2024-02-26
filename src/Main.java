@@ -77,7 +77,7 @@ public class Main {
                     System.out.println("Selecione uma opcao no menu abaixo: \n"
                             + "\n 1 - Listar estoque"
                             + "\n 2 - Cadastrar novo produto"
-                            + "\n 3 - Registar recebimento de produtos"
+                            + "\n 3 - Gerenciar produtos no estoque"
                             + "\n 4 - Retornar ao menu de login"
                             + "\n 0 - sair");
                     try {
