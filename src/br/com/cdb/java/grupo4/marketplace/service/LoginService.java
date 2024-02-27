@@ -7,8 +7,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.xml.validation.Validator;
-
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
@@ -79,6 +77,10 @@ public class LoginService {
             usuario = LoginService.validaLogin(listaDeUsuarios, email, senhaString);
         }
 
+        if (usuario != null) {
+            System.out.println("\nLogin realizado com sucesso!\n" + "Bem-vindo " + usuario.getNome() + "!");
+        }
+
         return usuario;
 
     }
@@ -99,6 +101,7 @@ public class LoginService {
                         } else {
                             System.out.println(
                                     "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
+                            usuario = null;
                         }
                     } else if (PasswordService.validarSenha(senha, listaDeUsuarios.get(i).getSenha()) == true) {
                         usuario = new Cliente(
@@ -112,18 +115,20 @@ public class LoginService {
                     } else {
                         System.out.println(
                                 "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
+                        usuario = null;
                     }
                 } else if (i < listaDeUsuarios.size() - 1) {
                     System.out.println("\nBuscando...\n");
                 } else {
                     System.out
                             .println("\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
+                    usuario = null;
                 }
             }
-            System.out.println("\nLogin realizado com sucesso!\n" + "Bem-vindo " + usuario.getNome() + "!");
         } else {
             System.out.println("Nao ha usuarios cadastrados!");
         }
+
         return usuario;
     }
 }

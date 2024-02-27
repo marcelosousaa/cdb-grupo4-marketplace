@@ -32,8 +32,8 @@ public class Main {
         listaDeUsuarios.add(adm);
         adm = null; // LIBERA A VARIAVEL
 
+        // INICIO DA APLICACAO
         while (!rodandoAplicacao) {
-            // INICIO DA APLICACAO
             int opcaoRetornada = 0;
             opcaoRetornada = LoginService.telaDeLogin();
             rodandoMenuLogin = false;
