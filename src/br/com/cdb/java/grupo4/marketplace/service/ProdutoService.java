@@ -227,6 +227,7 @@ public class ProdutoService {
                             }
                             break;
                         }
+                        break;
                     } else if (i < listaDeProdutos.size() - 1) {
                         System.out.println("Buscando...");
                     } else {
@@ -254,6 +255,7 @@ public class ProdutoService {
                             System.out.println("Valor invalido!");
                         } else {
                             listaDeProdutos.get(i).adicionarQuantidade(quantidadeAdicional);
+                            System.out.println("Quantidade atualizado!\n");
                             break;
                         }
                     } catch (InputMismatchException e) {
@@ -276,6 +278,7 @@ public class ProdutoService {
                             System.out.println("Valor invalido!");
                         } else {
                             listaDeProdutos.get(i).setPreco(novoPreco);
+                            System.out.println("Valor atualizado!\n");
                             break;
                         }
                     } catch (InputMismatchException e) {
