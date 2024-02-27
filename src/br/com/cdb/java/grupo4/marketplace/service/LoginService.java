@@ -6,9 +6,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.xml.validation.Validator;
+
 import br.com.cdb.java.grupo4.marketplace.model.Administrador;
 import br.com.cdb.java.grupo4.marketplace.model.Cliente;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
+import br.com.cdb.java.grupo4.marketplace.util.ValidatorUtil;
 
 public class LoginService {
 
@@ -37,6 +41,9 @@ public class LoginService {
 
     public static Usuario login(List<Usuario> listaDeUsuarios)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        ValidatorUtil validatorUtil = new ValidatorUtil();
+
         String email = null;
         char[] senhaChar;
         String senhaString = null;
@@ -50,6 +57,8 @@ public class LoginService {
                 email = new Scanner(System.in).nextLine();
                 if (email.isEmpty()) {
                     System.err.println("Campo obrigatorio!");
+                } else if (!validatorUtil.validaEmail(email)) {
+                    System.err.println("Formato invalido!");
                 } else {
                     break;
                 }
@@ -69,7 +78,9 @@ public class LoginService {
 
             usuario = LoginService.validaLogin(listaDeUsuarios, email, senhaString);
         }
+
         return usuario;
+
     }
 
     private static Usuario validaLogin(List<Usuario> listaDeUsuarios, String email, String senha)
@@ -98,18 +109,18 @@ public class LoginService {
                                 ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
                                 ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
                                 ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
-                        System.out.println("\nLogin realizado com sucesso!\n");
                     } else {
                         System.out.println(
                                 "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                     }
-                } else if (i < listaDeUsuarios.size()) {
+                } else if (i < listaDeUsuarios.size() - 1) {
                     System.out.println("\nBuscando...\n");
                 } else {
                     System.out
                             .println("\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                 }
             }
+            System.out.println("\nLogin realizado com sucesso!\n" + "Bem-vindo " + usuario.getNome() + "!");
         } else {
             System.out.println("Nao ha usuarios cadastrados!");
         }
