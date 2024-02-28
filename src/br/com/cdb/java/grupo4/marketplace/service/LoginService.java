@@ -41,11 +41,10 @@ public class LoginService {
             throws NoSuchAlgorithmException, InvalidKeySpecException {
 
         ValidatorUtil validatorUtil = new ValidatorUtil();
-
+        Usuario usuario = null;
         String email = null;
         char[] senhaChar;
         String senhaString = null;
-        Usuario usuario = null;
         Console console = null;
 
         while (usuario == null) {
@@ -75,10 +74,10 @@ public class LoginService {
             }
 
             usuario = LoginService.validaLogin(listaDeUsuarios, email, senhaString);
-        }
 
-        if (usuario != null) {
-            System.out.println("\nLogin realizado com sucesso!\n" + "Bem-vindo " + usuario.getNome() + "!");
+            if (usuario != null) {
+                System.out.println("\nLogin realizado com sucesso!\n" + "Bem-vindo " + usuario.getNome() + "!");
+            }
         }
 
         return usuario;
@@ -93,25 +92,29 @@ public class LoginService {
                 if (listaDeUsuarios.get(i).getEmail().equals(email)) {
                     if (listaDeUsuarios.get(i).getFuncao() == 'A') {
                         if (listaDeUsuarios.get(i).getSenha().equals(senha)) {
-                            usuario = new Administrador(
-                                    listaDeUsuarios.get(i).getId(),
-                                    listaDeUsuarios.get(i).getNome(),
-                                    listaDeUsuarios.get(i).getSenha(),
-                                    listaDeUsuarios.get(i).getEmail());
+                            usuario = new Administrador();
+                            usuario.setId(listaDeUsuarios.get(i).getId());
+                            usuario.setNome(listaDeUsuarios.get(i).getNome());
+                            usuario.setEmail(listaDeUsuarios.get(i).getEmail());
+                            usuario.setFuncao('A');
+                            break;
                         } else {
                             System.out.println(
                                     "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
                             usuario = null;
                         }
                     } else if (PasswordService.validarSenha(senha, listaDeUsuarios.get(i).getSenha()) == true) {
-                        usuario = new Cliente(
-                                listaDeUsuarios.get(i).getId(),
-                                listaDeUsuarios.get(i).getNome(),
-                                listaDeUsuarios.get(i).getSenha(),
-                                listaDeUsuarios.get(i).getEmail(),
-                                ((Cliente) listaDeUsuarios.get(i)).getTelefone(),
-                                ((Cliente) listaDeUsuarios.get(i)).getEndereco(),
-                                ((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
+                        usuario = new Cliente();
+                        usuario.setId(listaDeUsuarios.get(i).getId());
+                        usuario.setNome(listaDeUsuarios.get(i).getNome());
+                        usuario.setEmail(listaDeUsuarios.get(i).getEmail());
+                        usuario.setFuncao('C');
+                        ((Cliente) usuario).setTelefone(((Cliente) listaDeUsuarios.get(i)).getTelefone());
+                        ((Cliente) usuario).setEndereco(((Cliente) listaDeUsuarios.get(i)).getEndereco());
+                        ((Cliente) usuario)
+                                .setDataDeNascimento(((Cliente) listaDeUsuarios.get(i)).getDataDeNascimento());
+                        ((Cliente) usuario).setSaldo(((Cliente) listaDeUsuarios.get(i)).getSaldo());
+                        break;
                     } else {
                         System.out.println(
                                 "\nNao foi possivel realizar o login, verifique seus dados e tente novamente.\n");
@@ -127,8 +130,9 @@ public class LoginService {
             }
         } else {
             System.out.println("Nao ha usuarios cadastrados!");
+            usuario = null;
         }
-
         return usuario;
     }
+
 }

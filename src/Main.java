@@ -151,7 +151,7 @@ public class Main {
                         } else {
                             switch (opcaoSelecionada) {
                                 case 1:
-                                    ClienteService.gerenciarCarteira(usuario);
+                                    listaDeUsuarios = ClienteService.gerenciarCarteira(cliente, listaDeUsuarios);
                                     rodandoMenuPrincipal = true;
                                     break;
                                 case 2:

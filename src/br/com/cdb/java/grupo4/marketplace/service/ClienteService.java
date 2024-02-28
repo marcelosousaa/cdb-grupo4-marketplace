@@ -14,7 +14,8 @@ import br.com.cdb.java.grupo4.marketplace.util.ValidatorUtil;
 
 public class ClienteService {
 
-    public static Cliente cadastrarCliente(List<Usuario> listaDeUsuarios) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static Cliente cadastrarCliente(List<Usuario> listaDeUsuarios)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
         Console console = null;
         Cliente clienteCadastrado = null;
         String nome;
@@ -48,9 +49,9 @@ public class ClienteService {
         while (true) {
             System.out.println("Digite sua data de nascimento, no formato (XX/XX/XXXX): ");
             dataDeNascimento = new Scanner(System.in).nextLine();
-            if(dataDeNascimento.isEmpty()){
+            if (dataDeNascimento.isEmpty()) {
                 System.err.println("Campo obrigatorio!");
-            } else if(!validatorUtil.validaDataDeNascimento(dataDeNascimento)){
+            } else if (!validatorUtil.validaDataDeNascimento(dataDeNascimento)) {
                 System.err.println("Formato invalido!");
             } else {
                 break;
@@ -75,7 +76,7 @@ public class ClienteService {
             email = new Scanner(System.in).nextLine();
             if (email.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
-            } else if(!validatorUtil.validaEmail(email)){
+            } else if (!validatorUtil.validaEmail(email)) {
                 System.err.println("Formato invalido, digite novamente!");
             } else {
                 break;
@@ -83,11 +84,11 @@ public class ClienteService {
         }
 
         while (true) {
-            System.out.println("Informe seu telefone com DDD, no formato (XX) XXXXX-XXXX: " );
+            System.out.println("Informe seu telefone com DDD, no formato (XX) XXXXX-XXXX: ");
             telefone = new Scanner(System.in).nextLine();
             if (telefone.isEmpty()) {
                 System.out.println("Campo obrigatorio!");
-            } else if(!validatorUtil.validaTelefone(telefone)){
+            } else if (!validatorUtil.validaTelefone(telefone)) {
                 System.err.println("Formato invalido, digite novamente!");
             } else {
                 System.out.println(telefone);
@@ -129,11 +130,6 @@ public class ClienteService {
         throw new UnsupportedOperationException("Unimplemented method 'menuCompras'");
     }
 
-    public static void gerenciarCarteira(Usuario usuario) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gerenciarCarteira'");
-    }
-
     public static void exibirCarrinho(List<Produto> carrinho, Cliente cliente) {
         System.out.println("Usuario: " + cliente.getNome());
         System.out.println("Carrinho de compras");
@@ -149,12 +145,77 @@ public class ClienteService {
 
         try {
             idProduto = new Scanner(System.in).nextLong();
-            for(int i = 0; i < listaDeProdutos.size(); i++){
+            for (int i = 0; i < listaDeProdutos.size(); i++) {
 
             }
 
         } catch (InputMismatchException e) {
             System.out.println("Caracter invalido!");
         }
+    }
+
+    public static List<Usuario> gerenciarCarteira(Cliente cliente, List<Usuario> listaDeUsuarios) {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("Gerenciar Carteira:"
+                    + "\n[1] - Adicionar saldo"
+                    + "\n[2] - Visualizar saldo"
+                    + "\n[0] - Voltar");
+
+            System.out.println("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    cliente = depositarSaldo(cliente);
+                    listaDeUsuarios = atualizaSaldoNoArrayDeUsuario(listaDeUsuarios, cliente);
+                    break;
+                case 2:
+                    double saldo = cliente.getSaldo();
+                    System.out.println("Seu saldo atual é: " + saldo);
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu anterior...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    break;
+            }
+        } while (opcao != 0);
+        
+        return listaDeUsuarios;
+    }
+
+    public static Cliente depositarSaldo(Cliente cliente) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Informe o valor que deseja adicionar à carteira: ");
+        double valor = scanner.nextDouble();
+
+        if (valor > 0) {
+            cliente.depositar(valor);
+            System.out.println("Saldo depositado com sucesso!");
+        } else {
+            System.out.println("Não foi possível realizar o depósito!");
+        }
+        return cliente;
+    }
+
+    public static List<Usuario> atualizaSaldoNoArrayDeUsuario(List<Usuario> listaUsuarios, Cliente cliente) {
+        if (!listaUsuarios.isEmpty()) {
+            for (Usuario usuario : listaUsuarios) {
+                if (usuario instanceof Cliente) {
+                    if (usuario.getId() == cliente.getId()) {
+                        ((Cliente) usuario).setSaldo(cliente.getSaldo());
+                    } else {
+                        System.out.println("Usuario não existe");
+                    }
+                } else {
+                    System.out.println("Não é um cliente.");
+                }
+            }
+        }
+        return listaUsuarios;
     }
 }

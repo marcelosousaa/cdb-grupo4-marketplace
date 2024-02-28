@@ -6,6 +6,10 @@ public final class Cliente extends Usuario {
     private String dataDeNascimento;
     private double saldo;
 
+    public Cliente(){
+
+    }
+
     public Cliente(long id, String nome, String senha, String email, String telefone, String endereco, String dataDeNascimento) {
         super(id, nome, senha, email, 'C');
         this.telefone = telefone;
@@ -44,6 +48,10 @@ public final class Cliente extends Usuario {
 
     public void setSaldo(double saldo) {
         this.saldo += saldo;
+    }
+
+    public void depositar(double valor) {
+        this.saldo += valor;
     }
 
     @Override
