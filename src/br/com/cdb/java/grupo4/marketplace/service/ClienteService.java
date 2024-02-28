@@ -95,6 +95,8 @@ public class ClienteService {
                         clienteCadastrado = null;
                         loopCadastroDeUsuario = true;
                         loopDataDeNascimento = true;
+                    } else {
+                        loopDataDeNascimento = true;
                     }
                 }
             }
