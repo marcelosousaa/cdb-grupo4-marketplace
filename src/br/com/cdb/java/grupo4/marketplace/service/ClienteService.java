@@ -154,6 +154,7 @@ public class ClienteService {
                         dataDeNascimento);
 
                 System.out.println("Cadastro realizado com sucesso!");
+                loopCadastroDeUsuario = true;
             } else {
                 System.out.println("Processo de cadastramento encerrado. Ligue no SAC!\n");
                 clienteCadastrado = null;
