@@ -50,9 +50,14 @@ public class Main {
                         break;
                     case 2:
                         cliente = ClienteService.cadastrarCliente(listaDeUsuarios);
-                        listaDeUsuarios.add(cliente);
-                        listaDeClientes.add(cliente); // Adicione o cliente à lista de clientes
-                        opcaoRetornada = LoginService.telaDeLogin();
+                        if (cliente == null) {
+                            opcaoRetornada = LoginService.telaDeLogin();
+                        } else {
+                            listaDeUsuarios.add(cliente);
+                            listaDeClientes.add(cliente); // Adicione o cliente à lista de clientes
+                            opcaoRetornada = LoginService.telaDeLogin();
+                        }
+
                         break;
                     case 0:
                         System.out.println("\nEncerrando...");
@@ -106,7 +111,7 @@ public class Main {
                                                 listaDeProdutos.add(novoProduto);
                                                 loopMenuCadastroDeProdutos = true;
                                                 rodandoMenuPrincipal = false;
-                                            } else if(opcaoCadastro == 2){
+                                            } else if (opcaoCadastro == 2) {
                                                 listaDeProdutos = ProdutoService
                                                         .importarProdutosDoArquivo(listaDeProdutos);
                                                 loopMenuCadastroDeProdutos = true;
@@ -148,7 +153,8 @@ public class Main {
 
                     System.out.println("\nSelecione uma opcao no menu abaixo:"
                             + "\n 1 - Gerenciar minha carteira"
-                            + "\n 2 - Compras");
+                            + "\n 2 - Compras"
+                            + "\n 0 - Sair");
                     try {
                         opcaoSelecionada = new Scanner(System.in).nextInt();
                         if (opcaoSelecionada < 0 || opcaoSelecionada > 2) {
@@ -160,6 +166,10 @@ public class Main {
                                     break;
                                 case 2:
                                     ClienteService.realizarCompra(cliente, listaDeProdutos, listaDeClientes);
+                                    break;
+                                case 0:
+                                    System.out.println("Retornando ao menu principal...\n");
+                                    rodandoMenuPrincipal = true;
                                     break;
                             }
                         }

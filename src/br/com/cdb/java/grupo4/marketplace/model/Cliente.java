@@ -1,5 +1,8 @@
 package br.com.cdb.java.grupo4.marketplace.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public final class Cliente extends Usuario {
     private String telefone;
     private String endereco;
