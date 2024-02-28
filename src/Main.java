@@ -8,6 +8,7 @@ import br.com.cdb.java.grupo4.marketplace.model.Cliente;
 import br.com.cdb.java.grupo4.marketplace.model.Produto;
 import br.com.cdb.java.grupo4.marketplace.model.Usuario;
 import br.com.cdb.java.grupo4.marketplace.service.AdmService;
+import br.com.cdb.java.grupo4.marketplace.service.CarteiraService;
 import br.com.cdb.java.grupo4.marketplace.service.ClienteService;
 import br.com.cdb.java.grupo4.marketplace.service.LoginService;
 import br.com.cdb.java.grupo4.marketplace.service.ProdutoService;
@@ -24,8 +25,9 @@ public class Main {
         Usuario usuario = null;
         Cliente cliente = null;
         Administrador adm = null;
-        List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
-        List<Produto> listaDeProdutos = new ArrayList<Produto>();
+        List<Usuario> listaDeUsuarios = new ArrayList<>();
+        List<Produto> listaDeProdutos = new ArrayList<>();
+        List<Cliente> listaDeClientes = new ArrayList<>(); // Adicione esta lista
 
         // CRIAR ADM PADRAO
         adm = AdmService.criarAdministrador();
@@ -49,6 +51,7 @@ public class Main {
                     case 2:
                         cliente = ClienteService.cadastrarCliente(listaDeUsuarios);
                         listaDeUsuarios.add(cliente);
+                        listaDeClientes.add(cliente); // Adicione o cliente à lista de clientes
                         opcaoRetornada = LoginService.telaDeLogin();
                         break;
                     case 0:
@@ -141,6 +144,8 @@ public class Main {
                         rodandoMenuPrincipal = false;
                     }
                 } else { // SE FOR CLIENTE
+                    cliente = (Cliente) usuario;
+
                     System.out.println("\nSelecione uma opcao no menu abaixo:"
                             + "\n 1 - Gerenciar minha carteira"
                             + "\n 2 - Compras");
@@ -151,12 +156,10 @@ public class Main {
                         } else {
                             switch (opcaoSelecionada) {
                                 case 1:
-                                    listaDeUsuarios = ClienteService.gerenciarCarteira(cliente, listaDeUsuarios);
-                                    rodandoMenuPrincipal = true;
+                                    CarteiraService.gerenciarCarteira(cliente, listaDeUsuarios);
                                     break;
                                 case 2:
-                                    ClienteService.menuCompras(usuario);
-                                    rodandoMenuPrincipal = true;
+                                    ClienteService.realizarCompra(cliente, listaDeProdutos, listaDeClientes);
                                     break;
                             }
                         }
