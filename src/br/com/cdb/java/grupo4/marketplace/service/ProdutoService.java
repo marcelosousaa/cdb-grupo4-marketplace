@@ -310,7 +310,6 @@ public class ProdutoService {
         }
         return listaDeProdutos;
     }
-}
 
     private static List<Produto> atualizarDescricao(List<Produto> listaDeProdutos, long idProduto) {
         for (int i = 0; i < listaDeProdutos.size(); i++) {
