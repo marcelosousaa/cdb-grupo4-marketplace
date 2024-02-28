@@ -128,7 +128,7 @@ public class ClienteService {
         }
     }
 
-    public static void realizarCompra(Cliente cliente, List<Produto> listaDeProdutos, List<Cliente> listaDeUsuarios) {
+public static void realizarCompra(Cliente cliente, List<Produto> listaDeProdutos, List<Cliente> listaDeUsuarios) {
         Scanner scanner = new Scanner(System.in);
 
         List<Produto> produtosSelecionados = new ArrayList<>();
@@ -232,5 +232,4 @@ public class ClienteService {
             System.out.println("Compra cancelada.");
         }
     }
-
 }

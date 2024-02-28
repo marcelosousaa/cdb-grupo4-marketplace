@@ -34,8 +34,8 @@ public class Main {
         listaDeUsuarios.add(adm);
         adm = null; // LIBERA A VARIAVEL
 
+        // INICIO DA APLICACAO
         while (!rodandoAplicacao) {
-            // INICIO DA APLICACAO
             int opcaoRetornada = 0;
             opcaoRetornada = LoginService.telaDeLogin();
             rodandoMenuLogin = false;
@@ -58,6 +58,7 @@ public class Main {
                         System.out.println("\nEncerrando...");
                         System.out.println("Obrigado por utilizar o nosso sistema!\n");
                         rodandoMenuLogin = true;
+                        rodandoMenuPrincipal = true;
                         rodandoAplicacao = true;
                         break;
                     default:
@@ -75,7 +76,6 @@ public class Main {
                             + "\n 1 - Listar estoque"
                             + "\n 2 - Cadastrar novo produto"
                             + "\n 3 - Gerenciar produtos no estoque"
-                            + "\n 4 - Retornar ao menu de login"
                             + "\n 0 - sair");
                     try {
                         opcaoSelecionada = new Scanner(System.in).nextInt();
@@ -93,10 +93,11 @@ public class Main {
                                     while (!loopMenuCadastroDeProdutos) {
                                         System.out.println("Deseja cadastrar manualmente ou importar do arquivo(CSV)?\n"
                                                 + "1 - Cadastrar manualmente\n"
-                                                + "2 - Importar do arquivo\n");
+                                                + "2 - Importar do arquivo\n"
+                                                + "0 - Voltar");
                                         try {
                                             int opcaoCadastro = new Scanner(System.in).nextInt();
-                                            if (opcaoCadastro < 1 || opcaoCadastro > 2) {
+                                            if (opcaoCadastro < 0 || opcaoCadastro > 2) {
                                                 System.err.println("Opcao invalida!");
                                                 loopMenuCadastroDeProdutos = false;
                                             } else if (opcaoCadastro == 1) {
@@ -105,9 +106,13 @@ public class Main {
                                                 listaDeProdutos.add(novoProduto);
                                                 loopMenuCadastroDeProdutos = true;
                                                 rodandoMenuPrincipal = false;
-                                            } else {
+                                            } else if(opcaoCadastro == 2){
                                                 listaDeProdutos = ProdutoService
                                                         .importarProdutosDoArquivo(listaDeProdutos);
+                                                loopMenuCadastroDeProdutos = true;
+                                                rodandoMenuPrincipal = false;
+                                            } else {
+                                                System.out.println("Voltando...");
                                                 loopMenuCadastroDeProdutos = true;
                                                 rodandoMenuPrincipal = false;
                                             }
@@ -120,22 +125,15 @@ public class Main {
                                     if (!listaDeProdutos.isEmpty()) {
                                         ProdutoService.listarProdutos(listaDeProdutos);
                                         listaDeProdutos = ProdutoService.gerenciarEstoque(listaDeProdutos);
-                                        //ProdutoService.listarProdutos(listaDeProdutos);
                                         rodandoMenuPrincipal = false;
                                     } else {
                                         System.err.println("Ainda nao ha produtos cadastrados...");
                                         rodandoMenuPrincipal = false;
                                     }
                                     break;
-                                case 4:
+                                case 0:
                                     System.out.println("Retornando ao menu principal...\n");
                                     rodandoMenuPrincipal = true;
-                                    break;
-                                case 0:
-                                    System.out.println("\nEncerrando...");
-                                    System.out.println("Obrigado por utilizar o nosso sistema!\n");
-                                    rodandoMenuPrincipal = true;
-                                    rodandoAplicacao = true;
                                     break;
                                 default:
                                     break;
@@ -159,7 +157,6 @@ public class Main {
                             switch (opcaoSelecionada) {
                                 case 1:
                                     CarteiraService.gerenciarCarteira(cliente, listaDeUsuarios);
-
                                     break;
                                 case 2:
                                     ClienteService.realizarCompra(cliente, listaDeProdutos, listaDeClientes);

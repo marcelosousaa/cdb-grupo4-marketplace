@@ -148,7 +148,7 @@ public class ProdutoService {
             throws IOException, InterruptedIOException {
 
         ValidatorUtil validatorUtil = new ValidatorUtil();
-        
+
         while (true) {
             System.out.println("Digite o nome do arquivo:");
             String nomeArquivo = new Scanner(System.in).nextLine();
@@ -181,10 +181,10 @@ public class ProdutoService {
                     validatorUtil = null;
                     break;
                 }
-    
+
             } else {
                 System.err.println("Digite o nome do arquivo!");
-            }   
+            }
         }
         return listaDeProdutos;
     }
@@ -197,16 +197,18 @@ public class ProdutoService {
 
                 for (int i = 0; i < listaDeProdutos.size(); i++) {
                     if (listaDeProdutos.get(i).getId() == idProduto) {
-                        System.out.println("Produto localizado!");
+                        System.out.println("Produto localizado!\n");
 
                         while (true) {
                             System.out.println("Selecione o tipo de atualizacao\n"
                                     + "1 - Atualizar preco\n"
-                                    + "2 - Atualizar quantidades");
+                                    + "2 - Atualizar quantidade\n"
+                                    + "3 - Atualizar nome\n"
+                                    + "4 - Atualizar descricao");
 
                             try {
                                 int opcaoSelecionada = new Scanner(System.in).nextInt();
-                                if (opcaoSelecionada < 0 || opcaoSelecionada > 2) {
+                                if (opcaoSelecionada < 0 || opcaoSelecionada > 4) {
                                     System.out.println("Opcao invalida!");
                                 } else {
                                     switch (opcaoSelecionada) {
@@ -218,6 +220,14 @@ public class ProdutoService {
                                             listaDeProdutos = atualizarQuantidade(listaDeProdutos, idProduto);
                                             listarProdutos(listaDeProdutos);
                                             break;
+                                        case 3:
+                                            listaDeProdutos = atualizarNome(listaDeProdutos, idProduto);
+                                            listarProdutos(listaDeProdutos);
+                                            break;
+                                        case 4:
+                                            listaDeProdutos = atualizarDescricao(listaDeProdutos, idProduto);
+                                            listarProdutos(listaDeProdutos);
+                                            break;
                                         default:
                                             break;
                                     }
@@ -227,6 +237,7 @@ public class ProdutoService {
                             }
                             break;
                         }
+                        break;
                     } else if (i < listaDeProdutos.size() - 1) {
                         System.out.println("Buscando...");
                     } else {
@@ -254,13 +265,14 @@ public class ProdutoService {
                             System.out.println("Valor invalido!");
                         } else {
                             listaDeProdutos.get(i).adicionarQuantidade(quantidadeAdicional);
+                            System.out.println("Quantidade atualizado!\n");
                             break;
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Caracter e/ou formato invalido!");
                     }
                 }
-            } 
+            }
         }
         return listaDeProdutos;
     }
@@ -287,6 +299,7 @@ public class ProdutoService {
                             System.out.println("Valor invalido!");
                         } else {
                             listaDeProdutos.get(i).setPreco(novoPreco);
+                            System.out.println("Valor atualizado!\n");
                             break;
                         }
                     } catch (InputMismatchException e) {
@@ -297,5 +310,77 @@ public class ProdutoService {
         }
         return listaDeProdutos;
     }
+}
 
+    private static List<Produto> atualizarDescricao(List<Produto> listaDeProdutos, long idProduto) {
+        for (int i = 0; i < listaDeProdutos.size(); i++) {
+            if (listaDeProdutos.get(i).getId() == idProduto) {
+                while (true) {
+                    System.out.println("Digite a nova descricao: ");
+                    String novaDescricao = new Scanner(System.in).nextLine();
+                    if (novaDescricao.isEmpty()) {
+                        System.out.println("A descricao esta em branco, deseja prosseguir?(S/N)");
+
+                        try {
+                            char opcaoDoUsuario = new Scanner(System.in).next().charAt(0);
+                            if (opcaoDoUsuario == 's' || opcaoDoUsuario == 'S') {
+                                listaDeProdutos.get(i).setDescricao(novaDescricao);
+                                System.out.println("Descricao atualizada para: " + novaDescricao);
+                                break;
+                            } else if (opcaoDoUsuario == 'n' || opcaoDoUsuario == 'N') {
+                                System.out.println("Voltando...!");
+                            } else {
+                                System.err.println("Opcao invalida!");
+                            }
+
+                        } catch (InputMismatchException e) {
+                            System.out.println("Caracter invalido!");
+                        }
+
+                    } else {
+                        listaDeProdutos.get(i).setDescricao(novaDescricao);
+                        System.out.println("Descricao atualizada para: " + novaDescricao);
+                        break;
+                    }
+                }
+            }
+        }
+        return listaDeProdutos;
+    }
+
+    private static List<Produto> atualizarNome(List<Produto> listaDeProdutos, long idProduto) {
+        for (int i = 0; i < listaDeProdutos.size(); i++) {
+            if (listaDeProdutos.get(i).getId() == idProduto) {
+                while (true) {
+                    System.out.println("Digite um novo nome para o produto: ");
+                    String novoNome = new Scanner(System.in).nextLine();
+                    if (novoNome.isEmpty()) {
+                        System.out.println("O nome esta em branco, deseja prosseguir?(S/N)");
+
+                        try {
+                            char opcaoDoUsuario = new Scanner(System.in).next().charAt(0);
+                            if (opcaoDoUsuario == 's' || opcaoDoUsuario == 'S') {
+                                listaDeProdutos.get(i).setNome(novoNome);
+                                System.out.println("Nome atualizado para: " + novoNome);
+                                break;
+                            } else if (opcaoDoUsuario == 'n' || opcaoDoUsuario == 'N') {
+                                System.out.println("Voltando...!");
+                            } else {
+                                System.err.println("Opcao invalida!");
+                            }
+
+                        } catch (InputMismatchException e) {
+                            System.out.println("Caracter invalido!");
+                        }
+
+                    } else {
+                        listaDeProdutos.get(i).setNome(novoNome);
+                        System.out.println("Nome atualizado para: " + novoNome);
+                        break;
+                    }
+                }
+            }
+        }
+        return listaDeProdutos;
+    }
 }
