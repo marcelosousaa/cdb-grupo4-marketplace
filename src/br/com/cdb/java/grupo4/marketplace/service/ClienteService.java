@@ -3,6 +3,7 @@ package br.com.cdb.java.grupo4.marketplace.service;
 import java.io.Console;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,87 +33,131 @@ public class ClienteService {
         long idCliente = 0l;
         ValidatorUtil validatorUtil = new ValidatorUtil();
 
-        for (Usuario usuario : listaDeUsuarios) {
-            if (usuario instanceof Cliente) {
-                totalDeClientes++;
-            }
-        }
-        idCliente = totalDeClientes + 1;
+        boolean loopCadastroDeUsuario = false;
 
-        while (true) {
-            System.out.println("Digite seu nome: ");
-            nome = new Scanner(System.in).nextLine();
-            if (nome.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
+        while (!loopCadastroDeUsuario) {
+            for (Usuario usuario : listaDeUsuarios) {
+                if (usuario instanceof Cliente) {
+                    totalDeClientes++;
+                }
+            }
+            idCliente = totalDeClientes + 1;
+
+            while (true) {
+                System.out.println("Digite seu nome: ");
+                nome = new Scanner(System.in).nextLine();
+                if (nome.isEmpty()) {
+                    System.out.println("Campo obrigatorio!");
+                } else {
+                    break;
+                }
+            }
+
+            boolean loopDataDeNascimento = false;
+            while (!loopDataDeNascimento) {
+                System.out.println("Digite sua data de nascimento, no formato (XX/XX/XXXX): ");
+                dataDeNascimento = new Scanner(System.in).nextLine();
+                if (dataDeNascimento.isEmpty()) {
+                    System.err.println("Campo obrigatorio!");
+                    loopDataDeNascimento = false;
+                } else if (!validatorUtil.validaDataDeNascimento(dataDeNascimento)) {
+                    System.err.println("Formato invalido!");
+                    loopDataDeNascimento = false;
+                } else {
+                    int ano = 0;
+                    int mes = 0;
+                    int dia = 0;
+
+                    for (int i = 0; i < dataDeNascimento.length(); i++) {
+                        String[] campos = dataDeNascimento.split("/");
+                        dia = Integer.parseInt(campos[0]);
+                        mes = Integer.parseInt(campos[1]);
+                        ano = Integer.parseInt(campos[2]);
+                    }
+
+                    if (dia < 0 || dia > 31) {
+                        System.err.println("Dia de nascimento invalido!");
+                        clienteCadastrado = null;
+                        loopCadastroDeUsuario = true;
+                        loopDataDeNascimento = true;
+                    } else if (mes < 0 || mes > 12) {
+                        System.err.println("Mes de nascimento invalido!");
+                        clienteCadastrado = null;
+                        loopCadastroDeUsuario = true;
+                        loopDataDeNascimento = true;
+                    } else if (ano > LocalDate.now().getYear() - 12) {
+                        System.err.println("Cadastro nao permitido para menores de 12 anos.");
+                        clienteCadastrado = null;
+                        loopCadastroDeUsuario = true;
+                        loopDataDeNascimento = true;
+                    } else if (ano < 1930) {
+                        System.err.println("Cadastro nao permitido!");
+                        clienteCadastrado = null;
+                        loopCadastroDeUsuario = true;
+                        loopDataDeNascimento = true;
+                    }
+                }
+            }
+
+            if (loopCadastroDeUsuario == false) {
+                while (true) {
+                    console = System.console();
+                    senhaChar = console.readPassword("Defina sua senha: ");
+
+                    if (senhaChar.length == 0) {
+                        System.err.println("Campo obrigatorio!");
+                    } else {
+                        senhaString = new String(senhaChar);
+                        senhaString = PasswordService.gerarSenhaForte(senhaString);
+                        break;
+                    }
+                }
+
+                while (true) {
+                    System.out.println("Digite seu email: ");
+                    email = new Scanner(System.in).nextLine();
+                    if (email.isEmpty()) {
+                        System.out.println("Campo obrigatorio!");
+                    } else if (!validatorUtil.validaEmail(email)) {
+                        System.err.println("Formato invalido, digite novamente!");
+                    } else {
+                        break;
+                    }
+                }
+
+                while (true) {
+                    System.out.println("Informe seu telefone com DDD, no formato (XX) XXXXX-XXXX: ");
+                    telefone = new Scanner(System.in).nextLine();
+                    if (telefone.isEmpty()) {
+                        System.out.println("Campo obrigatorio!");
+                    } else if (!validatorUtil.validaTelefone(telefone)) {
+                        System.err.println("Formato invalido, digite novamente!");
+                    } else {
+                        System.out.println(telefone);
+                        break;
+                    }
+                }
+
+                while (true) {
+                    System.out.println("Digite o seu endereço: ");
+                    endereco = new Scanner(System.in).nextLine();
+                    if (endereco.isEmpty()) {
+                        System.out.println("Campo obrigatorio!");
+                    } else {
+                        break;
+                    }
+                }
+
+                clienteCadastrado = new Cliente(idCliente, nome, senhaString, email, telefone, endereco,
+                        dataDeNascimento);
+
+                System.out.println("Cadastro realizado com sucesso!");
             } else {
-                break;
+                System.out.println("Processo de cadastramento encerrado. Ligue no SAC!\n");
+                clienteCadastrado = null;
             }
+
         }
-
-        while (true) {
-            System.out.println("Digite sua data de nascimento, no formato (XX/XX/XXXX): ");
-            dataDeNascimento = new Scanner(System.in).nextLine();
-            if (dataDeNascimento.isEmpty()) {
-                System.err.println("Campo obrigatorio!");
-            } else if (!validatorUtil.validaDataDeNascimento(dataDeNascimento)) {
-                System.err.println("Formato invalido!");
-            } else {
-                break;
-            }
-        }
-
-        while (true) {
-            console = System.console();
-            senhaChar = console.readPassword("Defina sua senha: ");
-
-            if (senhaChar.length == 0) {
-                System.err.println("Campo obrigatorio!");
-            } else {
-                senhaString = new String(senhaChar);
-                senhaString = PasswordService.gerarSenhaForte(senhaString);
-                break;
-            }
-        }
-
-        while (true) {
-            System.out.println("Digite seu email: ");
-            email = new Scanner(System.in).nextLine();
-            if (email.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
-            } else if (!validatorUtil.validaEmail(email)) {
-                System.err.println("Formato invalido, digite novamente!");
-            } else {
-                break;
-            }
-        }
-
-        while (true) {
-            System.out.println("Informe seu telefone com DDD, no formato (XX) XXXXX-XXXX: ");
-            telefone = new Scanner(System.in).nextLine();
-            if (telefone.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
-            } else if (!validatorUtil.validaTelefone(telefone)) {
-                System.err.println("Formato invalido, digite novamente!");
-            } else {
-                System.out.println(telefone);
-                break;
-            }
-        }
-
-        while (true) {
-            System.out.println("Digite o seu endereço: ");
-            endereco = new Scanner(System.in).nextLine();
-            if (endereco.isEmpty()) {
-                System.out.println("Campo obrigatorio!");
-            } else {
-                break;
-            }
-        }
-
-        clienteCadastrado = new Cliente(idCliente, nome, senhaString, email, telefone, endereco, dataDeNascimento);
-
-        System.out.println("Cadastro realizado com sucesso!");
-
         return clienteCadastrado;
     }
 
@@ -128,7 +173,7 @@ public class ClienteService {
         }
     }
 
-public static void realizarCompra(Cliente cliente, List<Produto> listaDeProdutos, List<Cliente> listaDeUsuarios) {
+    public static void realizarCompra(Cliente cliente, List<Produto> listaDeProdutos, List<Cliente> listaDeUsuarios) {
         Scanner scanner = new Scanner(System.in);
 
         List<Produto> produtosSelecionados = new ArrayList<>();
@@ -190,13 +235,13 @@ public static void realizarCompra(Cliente cliente, List<Produto> listaDeProdutos
         System.out.println("Produtos selecionados:");
         Set<Produto> produtosUnicos = new HashSet<>(produtosSelecionados);
         for (Produto produto : produtosUnicos) {
-            
+
             int quantidadeTotal = Collections.frequency(produtosSelecionados, produto);
-    
+
             double precoTotal = quantidadeTotal * produto.getPreco();
             System.out.println("- " + produto.getDescricao() + " - Quantidade: "
-            + quantidadeTotal + " - Valor Total: R$" + precoTotal);
-    
+                    + quantidadeTotal + " - Valor Total: R$" + precoTotal);
+
             valorTotal += precoTotal;
         }
         System.out.println("Valor total da compra: R$" + valorTotal);

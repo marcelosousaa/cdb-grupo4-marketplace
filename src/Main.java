@@ -50,9 +50,14 @@ public class Main {
                         break;
                     case 2:
                         cliente = ClienteService.cadastrarCliente(listaDeUsuarios);
-                        listaDeUsuarios.add(cliente);
-                        listaDeClientes.add(cliente); // Adicione o cliente à lista de clientes
-                        opcaoRetornada = LoginService.telaDeLogin();
+                        if (cliente == null) {
+                            opcaoRetornada = LoginService.telaDeLogin();
+                        } else {
+                            listaDeUsuarios.add(cliente);
+                            listaDeClientes.add(cliente); // Adicione o cliente à lista de clientes
+                            opcaoRetornada = LoginService.telaDeLogin();
+                        }
+
                         break;
                     case 0:
                         System.out.println("\nEncerrando...");
