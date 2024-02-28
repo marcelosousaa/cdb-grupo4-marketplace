@@ -47,6 +47,10 @@ public final class Produto {
         return quantidade;
     }
 
+    public void setQuantidade(int quantidade){
+        this.quantidade = quantidade;
+    }
+
     public void adicionarQuantidade(int quantidade){
         if(quantidade > 0){
             this.quantidade += quantidade;

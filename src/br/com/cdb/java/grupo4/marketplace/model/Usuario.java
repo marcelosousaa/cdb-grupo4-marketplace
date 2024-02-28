@@ -7,6 +7,8 @@ public abstract class Usuario {
     private String email;
     private char funcao;
 
+    public Usuario(){}
+
     public Usuario(long id, String nome, String senha, String email, char funcao) {
         this.id = id;
         this.nome = nome;
@@ -17,6 +19,10 @@ public abstract class Usuario {
 
     public long getId(){
         return this.id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
     
     public String getNome() {
@@ -45,5 +51,9 @@ public abstract class Usuario {
 
     public char getFuncao() {
         return funcao;
+    }
+
+    public void setFuncao(char funcao){
+        this.funcao = funcao;
     }
 }
