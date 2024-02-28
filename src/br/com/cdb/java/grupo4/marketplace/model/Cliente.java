@@ -11,7 +11,7 @@ public final class Cliente extends Usuario {
         this.telefone = telefone;
         this.endereco = endereco;
         this.dataDeNascimento = dataDeNascimento;
-        this.saldo += 100;
+        this.saldo = 100; // Define o saldo inicial como R$ 100
     }
 
     public String getTelefone() {
@@ -43,7 +43,7 @@ public final class Cliente extends Usuario {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo += saldo;
+        this.saldo = saldo;
     }
 
     @Override

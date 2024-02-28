@@ -265,6 +265,17 @@ public class ProdutoService {
         return listaDeProdutos;
     }
 
+    public static void atualizarQuantidadeAposCompra(List<Produto> listaDeProdutos, List<Produto> produtosSelecionados) {
+        for (Produto produtoSelecionado : produtosSelecionados) {
+            for (Produto produto : listaDeProdutos) {
+                if (produto.getId() == produtoSelecionado.getId()) {
+                    produto.subtrairQuantidade(1); // Subtrai 1 unidade do estoque do produto
+                    break; // Como o produto foi encontrado, podemos sair do loop interno
+                }
+            }
+        }
+    }
+
     private static List<Produto> atualizarPreco(List<Produto> listaDeProdutos, long idProduto) {
         for (int i = 0; i < listaDeProdutos.size(); i++) {
             if (listaDeProdutos.get(i).getId() == idProduto) {
@@ -286,4 +297,5 @@ public class ProdutoService {
         }
         return listaDeProdutos;
     }
+
 }
